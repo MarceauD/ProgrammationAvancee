@@ -2,8 +2,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "defines.h"
+#include "gamestate.h"
 
 #include "SDL/SDL.h"
+
+
+
+bool contact(SDL_Rect * a, SDL_Rect* b){
+  bool found;
+  if(a->x == b->x - SPRITE_WIDTH || b->x + SPRITE_WIDTH == a->x){
+    found = true;
+  }
+  return found;   
+}
 
 int main(){
 
@@ -14,29 +25,21 @@ int main(){
     }
 
     
-
     SDL_WM_SetCaption(GAME_TITLE,GAME_TITLE);
 
-    SDL_Surface* screen, *bg, *sprite, *enemy;
+    SDL_Surface* screen, *bg, *sprite, *enemy, *temp;
     SDL_Rect rcSprite, rcEnemy;
+    GameState gameState;
     Uint8 *keystate;
-    bool done;
-    done = false;
-
+  
     SDL_Event event;
     
+    gameState = DefaultGameState();
+
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
 
     if (!screen){
         printf("Unable to set 640x480 video: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    bg = SDL_CreateRGBSurface(0,SCREEN_WIDTH,SCREEN_HEIGHT,32,0,0,0,0);
-
-
-    if(!bg){
-        printf("Unable to load the background %s\n", SDL_GetError());
         return 1;
     }
 
@@ -54,33 +57,40 @@ int main(){
       return 1;
     }
 
+    temp = SDL_LoadBMP("background.bmp");
+    bg = SDL_DisplayFormat(temp);
+
     rcSprite.x = DEFAULT_SPRITE_POSITION_X;
     rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
 
     rcEnemy.x = DEFAULT_ENEMY_POSITION_X;
     rcEnemy.y = DEFAULT_ENEMY_POSITION_Y;
 
-    while(!done){
+    
+
+    while(!isOver(gameState)){
       if (SDL_PollEvent(&event)){
 	switch (event.type){
 	case SDL_QUIT:
-	  done = true;
+	  gameState.EndProgram = true;;
 	  break;
-	case SDL_KEYDOWN:
-	  switch(event.key.keysym.sym){
-	  case SDLK_ESCAPE:
-	  case SDLK_q:
-	    done = true;
-	    break;
 	  }
-	  break;
-      }
-     }
       
-      keystate = SDL_GetKeyState(NULL);
+     }
 
-      if (keystate[SDLK_LEFT]){
+      keystate = SDL_GetKeyState(NULL);
+      if(keystate[SDLK_ESCAPE]){
+	gameState.EndProgram = true;
+      }
+      if(rcSprite.y != DEFAULT_SPRITE_POSITION_Y){
+	while(rcSprite.y != DEFAULT_SPRITE_POSITION_Y){
+	  rcSprite.y = rcSprite.y + 1;
+	}
+      }
+      if(!contact(&rcEnemy,&rcSprite)){
+       if (keystate[SDLK_LEFT]){
 	rcSprite.x = rcSprite.x - 1;
+      }
       }
       if (keystate[SDLK_RIGHT]){
 	rcSprite.x = rcSprite.x + 1;
@@ -90,11 +100,8 @@ int main(){
       }
       else if(rcSprite.x > SCREEN_WIDTH - SPRITE_WIDTH ){
 	rcSprite.x = SCREEN_WIDTH - SPRITE_WIDTH;
-      }
-      
-	       
-
-      SDL_FillRect(bg,NULL, SDL_MapRGB(bg->format, 0,255,0));
+	}
+ 
       SDL_FillRect(sprite,NULL,SDL_MapRGB(sprite->format, 255,0,0));
 
       SDL_BlitSurface(bg,NULL,screen,NULL);
@@ -103,7 +110,7 @@ int main(){
       
       SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-      if(rcEnemy.x != rcSprite.x - SPRITE_WIDTH){
+      if(!contact(&rcEnemy,&rcSprite)){
 	rcEnemy.x = rcEnemy.x + 1;
       }
     }
@@ -112,6 +119,7 @@ int main(){
     SDL_FreeSurface(screen);
     SDL_FreeSurface(sprite);
     SDL_FreeSurface(enemy);
+    SDL_FreeSurface(temp);
 
     SDL_Quit();
 
