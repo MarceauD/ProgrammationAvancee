@@ -4,11 +4,6 @@
 #include "defines.h"
 #include "stdbool.h"
 
-enum GameStatus{
-  MENU,
-  SINGLEPLAYER
-};
-
 
 struct GameState{
   bool EndProgram;
