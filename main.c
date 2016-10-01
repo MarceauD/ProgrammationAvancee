@@ -101,7 +101,7 @@ int main(int argc, char *argv[]){
 
 
       SDL_BlitSurface(bg,NULL,screen,&rcBG);
-      SDL_BlitSurface(player.sprite,player.source,screen,&player.rcSprite);
+      SDL_BlitSurface(player.sprite,NULL,screen,&player.rcSprite);
       SDL_BlitSurface(bgGrass,NULL,screen,&rcBGGrass);
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);

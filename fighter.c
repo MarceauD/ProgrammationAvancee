@@ -9,7 +9,8 @@ fighter init_fighter(){
 
     SDL_FillRect(F.sprite,NULL,SDL_MapRGB(F.sprite->format, 255,0,0));
 
-    F.source = NULL;
+    F.source.x = 0;
+    F.source.y = 0;
 
     F.rcSprite.x = DEFAULT_SPRITE_POSITION_X;
     F.rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
@@ -49,5 +50,4 @@ fighter write_damage(int damage, fighter F){
 
 void FreeFighter(fighter F){
     SDL_FreeSurface(F.sprite);
-    SDL_FreeSurface(F.source);
 }

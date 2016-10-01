@@ -6,7 +6,7 @@
 
 struct fighter{
     SDL_Surface* sprite;
-    SDL_Surface* source;
+    SDL_Rect source;
     SDL_Rect rcSprite; //sprite's position on screen
     int lifepoints;
     int damage;
