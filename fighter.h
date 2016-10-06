@@ -4,6 +4,7 @@
 #include "SDL/SDL.h"
 #include "stdbool.h"
 
+
 struct fighter{
     SDL_Surface* sprite;
     SDL_Rect source;
