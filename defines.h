@@ -5,8 +5,8 @@
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 480
-#define SPRITE_WIDTH 50
-#define SPRITE_HEIGHT 150
+#define SPRITE_WIDTH 30
+#define SPRITE_HEIGHT 70
 
 
 #define TOP_HEIGHT 100

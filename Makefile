@@ -1,5 +1,5 @@
-SRC = main.c gamestate.c fighter.c
-INC = defines.h	gamestate.h fighter.h
+SRC = main.c gamestate.c graphics.c
+INC = defines.h	gamestate.h graphics.h
 
 # SRC = $(wildcard *.c)
 # INC = $(wildcard *.h)
