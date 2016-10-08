@@ -34,7 +34,9 @@ fighter init_fighter(){
 
     F = write_damage(DEFAULT_HITDAMAGE,F);
 
-    F.rotation = 1;
+    F.r = RIGHT;
+
+    F.p = STANDING;
     //EN ATTENTE D'UNE MEILLEURE DEFINITION
     F.hitbox = F.rcSprite;
 

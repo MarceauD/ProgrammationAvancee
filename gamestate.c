@@ -20,6 +20,24 @@ bool isOver(GameState gameState){
 
 }
 
+GameState write_EndProgramStatus(bool B, GameState gameState){
+    gameState.EndProgram = B;
+    return gameState;
+}
+
+GameState write_MenuStatus(bool B, GameState gameState){
+    gameState.inMenu = B;
+    return gameState;
+}
+
+bool read_ProgramStatus(GameState gameState){
+    return gameState.EndProgram;
+}
+
+bool read_MenuStatus(GameState gameState){
+    return gameState.inMenu;
+}
+
 
 /*TIME OPERATIONS*/
 
@@ -43,3 +61,5 @@ Time update_currentTime(Time *T){
 Time update_previousTime(Time *T){
     T->previousTime = T->currentTime;
 }
+
+

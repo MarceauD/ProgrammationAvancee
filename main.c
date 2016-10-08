@@ -4,74 +4,9 @@
 #include "defines.h"
 #include "gamestate.h"
 #include "graphics.h"
+#include "event_manager.h"
 
 #include "SDL/SDL.h"
-
-//handle the event generates by the keyboard
-void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,background* bg, Time *T){
-    Uint8 *keystate;
-    if (SDL_PollEvent(&event)){
-	switch (event.type){
-	case SDL_QUIT:
-	  gameState->EndProgram = true;
-	  break;
-	  }
-     }
-      keystate = SDL_GetKeyState(NULL);
-      if(keystate[SDLK_ESCAPE]){
-	gameState->EndProgram = true;
-      }
-       if (keystate[SDLK_LEFT]){
-        bg->source.x = bg->source.x - 1;
-        if(player->rotation == 1){
-        player->source.x = 3 * SPRITE_WIDTH + 5;
-        player->source.y = SPRITE_HEIGHT;
-        player->rotation = 0;
-        }
-
-        update_currentTime(T);
-        if(time_gap(*T) > 250){
-            player->source.x = player->source.x - SPRITE_WIDTH;
-            update_previousTime(T);
-        }
-        if(player->source.x < 5){
-            player->source.x = 3 * SPRITE_WIDTH + 5;
-        }
-        if (bg->source.x <= 0){
-            bg->source.x = 0;
-            player->rcSprite.x = player->rcSprite.x - 1;
-            if(player->rcSprite.x <= 0){
-                player->rcSprite.x = 0;
-            }
-        }
-      }
-      if (keystate[SDLK_RIGHT]){
-        bg->source.x = bg->source.x + 1;
-        if(player->rotation == 0){
-            player->source.x = 5;
-            player->source.y = 0;
-            player->rotation = 1;
-        }
-        update_currentTime(T);
-        if(time_gap(*T) > 250){
-            player->source.x = player->source.x + SPRITE_WIDTH;
-            update_previousTime(T);
-        }
-        if(player->source.x > SPRITE_WIDTH * 3){
-            player->source.x = 5;
-        }
-
-
-        if (bg->source.x > BACKGROUND_WIDTH - SCREEN_WIDTH){
-            bg->source.x = BACKGROUND_WIDTH - SCREEN_WIDTH;
-            player->rcSprite.x = player->rcSprite.x + 1;
-            if(player->rcSprite.x > SCREEN_WIDTH - SPRITE_WIDTH){
-                player->rcSprite.x = SCREEN_WIDTH - SPRITE_WIDTH;
-            }
-        }
-      }
-
-}
 
 int main(int argc, char *argv[]){
 
@@ -113,7 +48,7 @@ int main(int argc, char *argv[]){
         SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
 
         SDL_UpdateRect(screen, 0, 0, 0, 0);
-        SDL_Delay(5);
+        SDL_Delay(10);
     }
 
     SDL_FreeSurface(screen);

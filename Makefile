@@ -1,5 +1,5 @@
-SRC = main.c gamestate.c graphics.c
-INC = defines.h	gamestate.h graphics.h
+SRC = main.c gamestate.c graphics.c event_manager.c
+INC = defines.h	gamestate.h graphics.h event.manager.h
 
 # SRC = $(wildcard *.c)
 # INC = $(wildcard *.h)

@@ -5,13 +5,25 @@
 #include "stdbool.h"
 #include "defines.h"
 
+
+enum rotation{
+    LEFT,
+    RIGHT,
+};
+
+enum position{
+    STANDING,
+    KNELT,
+};
+
 struct fighter{
     SDL_Surface* sprite;
     SDL_Rect source;
     SDL_Rect rcSprite; //sprite's position on screen
     int lifepoints;
     int damage;
-    int rotation; //which side does the fighters look towards 0 : LEFT, 1 : RIGHT, default is right
+    enum rotation r; //which side does the fighters look towards 0 : LEFT, 1 : RIGHT, default is right
+    enum position p; //standing up : 1, kneeling down : 0
     SDL_Rect hitbox;
 };
 
