@@ -54,11 +54,11 @@ int time_gap(Time T){
     return T.currentTime - T.previousTime;
 }
 
-Time update_currentTime(Time *T){
+void update_currentTime(Time *T){
     T->currentTime = SDL_GetTicks();
 }
 
-Time update_previousTime(Time *T){
+void update_previousTime(Time *T){
     T->previousTime = T->currentTime;
 }
 

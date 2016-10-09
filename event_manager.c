@@ -25,13 +25,17 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,back
       if(keystate[SDLK_DOWN]){
         AnimateGameDown(player, T);
       }
+      if(keystate[SDLK_UP]){
+        AnimateGameUp(player, T);
+      }
 
 }
 
 
 void AnimateGameLeft(fighter *player, background *bg, Time *T){
+    if(player->p != JUMP){
         bg->source.x = bg->source.x - 1;
-        if(player->r == RIGHT || player->p == KNELT){
+        if(player->source.x != SOURCE_POS_PLAYER_STANDING_LEFT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_LEFT_Y){
         player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
         player->source.y = SOURCE_POS_PLAYER_STANDING_LEFT_Y;
         player->r = LEFT;
@@ -52,12 +56,14 @@ void AnimateGameLeft(fighter *player, background *bg, Time *T){
                 player->rcSprite.x = RECT_POS_PLAYER_LEFT_LIMIT_X;
             }
         }
+    }
 }
 
 
 void AnimateGameRight(fighter *player, background *bg, Time *T){
+    if(player->p != JUMP){
         bg->source.x = bg->source.x + 1;
-        if(player->r == LEFT || player->p == KNELT){
+        if(player->source.x != SOURCE_POS_PLAYER_STANDING_RIGHT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_RIGHT_Y){
             player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
             player->source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
             player->r = RIGHT;
@@ -78,6 +84,7 @@ void AnimateGameRight(fighter *player, background *bg, Time *T){
                 player->rcSprite.x = RECT_POS_PLAYER_RIGHT_LIMIT_X;
             }
         }
+    }
 }
 
 void AnimateGameDown(fighter *player, Time *T){
@@ -90,6 +97,54 @@ void AnimateGameDown(fighter *player, Time *T){
         player->source.x = SOURCE_POS_PLAYER_KNELT_LEFT_X;
         player->source.y = SOURCE_POS_PLAYER_KNELT_Y;
     }
+}
 
+void AnimateGameUp(fighter *player, Time *T){
+    if(player->p != JUMP){
+            if(player->r == RIGHT){
+                player->source.x = SOURCE_POS_PLAYER_JUMP_RIGHT_X;
+                player->source.y = SOURCE_POS_PLAYER_JUMP_RIGHT_Y;
+            }
+            if(player->r == LEFT){
+                player->source.x = SOURCE_POS_PLAYER_JUMP_LEFT_X;
+                player->source.y = SOURCE_POS_PLAYER_JUMP_LEFT_Y;
+            }
+            player->p = JUMP;
+    }
+    if(player->r == RIGHT){
+        update_currentTime(T);
+        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+            player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC;
+            if(player->source.x < SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC * 3){
+                player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
+            }
+            else{
+                player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
+            }
+
+            update_previousTime(T);
+        }
+        if(player->source.x > SOURCE_POS_PLAYER_JUMP_RIGHT_X_LIMIT){
+            player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+            player->p = STANDING;
+        }
+    }
+    if(player->r == LEFT){
+        update_currentTime(T);
+        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+            player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC;
+            if(player->source.x > SOURCE_POS_PLAYER_JUMP_LEFT_X + 3 * SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC){
+                player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
+            }
+            else{
+                player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
+            }
+            update_previousTime(T);
+        }
+        if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_X_LIMIT){
+            player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+            player->p = STANDING;
+        }
+    }
 }
 

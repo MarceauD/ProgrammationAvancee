@@ -14,6 +14,7 @@ enum rotation{
 enum position{
     STANDING,
     KNELT,
+    JUMP,
 };
 
 struct fighter{

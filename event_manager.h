@@ -11,5 +11,5 @@ extern void KeyboardManager(SDL_Event event, GameState *gameState, fighter *play
 extern void AnimateGameLeft(fighter *player, background *bg, Time *T); //Animate the game when left key is pushed
 extern void AnimateGameRight(fighter *player, background *bg, Time *T); //Animate the game when right key is pushed
 extern void AnimateGameDown(fighter *player, Time *T); //Animate the game when down key is pushed
-
+extern void AnimateGameUp(fighter *player, Time *T); //Animate the game when up key is pushed
 #endif //EVENT_MANAGER_H

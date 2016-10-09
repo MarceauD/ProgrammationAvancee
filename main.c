@@ -34,7 +34,6 @@ int main(int argc, char *argv[]){
 
     SDL_EnableKeyRepeat(10, 10);
 
-
     gameState = init_GameState();
     player = init_fighter();
     bg = init_background();
@@ -43,7 +42,9 @@ int main(int argc, char *argv[]){
     while(!isOver(gameState)){
 
         KeyboardManager(event,&gameState,&player,&bg,&T);
-
+        if(player.p == JUMP){
+            AnimateGameUp(&player, &T);
+        }
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
         SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
 

@@ -17,18 +17,20 @@ SDL_Surface* loadImage(SDL_Surface* sprite,char* file){
 
 fighter init_fighter(){
     fighter F;
-    //EN ATTENTE D'UNE VRAIE IMAGE
+
     F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
 
     SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
 
-    F.source.x = 5;
+    F.source.x = 0;
     F.source.y = 0;
     F.source.h = SPRITE_HEIGHT;
     F.source.w = SPRITE_WIDTH;
 
     F.rcSprite.x = DEFAULT_SPRITE_POSITION_X;
     F.rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+    F.rcSprite.h = DEFAULT_SPRITE_HEIGHT;
+    F.rcSprite.w = DEFAULT_SPRITE_WIDTH;
 
     F = write_lifepoints(DEFAULT_LIFEPOINTS,F);
 
