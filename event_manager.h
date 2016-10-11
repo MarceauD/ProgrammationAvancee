@@ -12,4 +12,5 @@ extern void AnimateGameLeft(fighter *player, background *bg, Time *T); //Animate
 extern void AnimateGameRight(fighter *player, background *bg, Time *T); //Animate the game when right key is pushed
 extern void AnimateGameDown(fighter *player, Time *T); //Animate the game when down key is pushed
 extern void AnimateGameUp(fighter *player, Time *T); //Animate the game when up key is pushed
+extern void AnimateGameKick(fighter *player,Time *T); //Animate the game when fighter wants to kick
 #endif //EVENT_MANAGER_H

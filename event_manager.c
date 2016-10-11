@@ -28,12 +28,15 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,back
       if(keystate[SDLK_UP]){
         AnimateGameUp(player, T);
       }
+      if(keystate[SDLK_SPACE]){
+        AnimateGameKick(player,T);
+      }
 
 }
 
 
 void AnimateGameLeft(fighter *player, background *bg, Time *T){
-    if(player->p != JUMP){
+    if(player->p == STANDING || player->p == KNELT){
         bg->source.x = bg->source.x - 1;
         if(player->source.x != SOURCE_POS_PLAYER_STANDING_LEFT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_LEFT_Y){
         player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
@@ -57,11 +60,12 @@ void AnimateGameLeft(fighter *player, background *bg, Time *T){
             }
         }
     }
+
 }
 
 
 void AnimateGameRight(fighter *player, background *bg, Time *T){
-    if(player->p != JUMP){
+    if(player->p == STANDING || player->p == KNELT){
         bg->source.x = bg->source.x + 1;
         if(player->source.x != SOURCE_POS_PLAYER_STANDING_RIGHT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_RIGHT_Y){
             player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
@@ -88,63 +92,116 @@ void AnimateGameRight(fighter *player, background *bg, Time *T){
 }
 
 void AnimateGameDown(fighter *player, Time *T){
-    player->p = KNELT;
-    if(player->r == RIGHT){
-        player->source.x = SOURCE_POS_PLAYER_KNELT_RIGHT_X;
-        player->source.y = SOURCE_POS_PLAYER_KNELT_Y;
-    }
-    if(player->r == LEFT){
-        player->source.x = SOURCE_POS_PLAYER_KNELT_LEFT_X;
-        player->source.y = SOURCE_POS_PLAYER_KNELT_Y;
+    if(player->p != KICK){
+        player->p = KNELT;
+        if(player->r == RIGHT){
+            player->source.x = SOURCE_POS_PLAYER_KNELT_RIGHT_X;
+            player->source.y = SOURCE_POS_PLAYER_KNELT_Y;
+        }
+        if(player->r == LEFT){
+            player->source.x = SOURCE_POS_PLAYER_KNELT_LEFT_X;
+            player->source.y = SOURCE_POS_PLAYER_KNELT_Y;
+        }
     }
 }
 
 void AnimateGameUp(fighter *player, Time *T){
-    if(player->p != JUMP){
-            if(player->r == RIGHT){
-                player->source.x = SOURCE_POS_PLAYER_JUMP_RIGHT_X;
-                player->source.y = SOURCE_POS_PLAYER_JUMP_RIGHT_Y;
-            }
-            if(player->r == LEFT){
-                player->source.x = SOURCE_POS_PLAYER_JUMP_LEFT_X;
-                player->source.y = SOURCE_POS_PLAYER_JUMP_LEFT_Y;
-            }
-            player->p = JUMP;
-    }
-    if(player->r == RIGHT){
-        update_currentTime(T);
-        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
-            player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC;
-            if(player->source.x < SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC * 3){
-                player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
-            }
-            else{
-                player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
-            }
+    if(player->p == STANDING || player->p == KNELT || player->p == JUMP){
+        if(player->p != JUMP){
+                if(player->r == RIGHT){
+                    player->source.x = SOURCE_POS_PLAYER_JUMP_RIGHT_X;
+                    player->source.y = SOURCE_POS_PLAYER_JUMP_RIGHT_Y;
+                }
+                if(player->r == LEFT){
+                    player->source.x = SOURCE_POS_PLAYER_JUMP_LEFT_X;
+                    player->source.y = SOURCE_POS_PLAYER_JUMP_LEFT_Y;
+                }
+                player->p = JUMP;
+        }
+        if(player->r == RIGHT){
+            update_currentTime(T);
+            if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+                player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC;
+                if(player->source.x < SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC * 3){
+                    player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
+                }
+                else{
+                    player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
+                }
 
-            update_previousTime(T);
+                update_previousTime(T);
+            }
+            if(player->source.x > SOURCE_POS_PLAYER_JUMP_RIGHT_X_LIMIT){
+                player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+                player->p = STANDING;
+            }
         }
-        if(player->source.x > SOURCE_POS_PLAYER_JUMP_RIGHT_X_LIMIT){
-            player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
-            player->p = STANDING;
+        if(player->r == LEFT){
+            update_currentTime(T);
+            if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+                player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC;
+                if(player->source.x > SOURCE_POS_PLAYER_JUMP_LEFT_X + 3 * SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC){
+                    player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
+                }
+                else{
+                    player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
+                }
+                update_previousTime(T);
+            }
+            if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_X_LIMIT){
+                player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+                player->p = STANDING;
+            }
         }
     }
-    if(player->r == LEFT){
-        update_currentTime(T);
-        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
-            player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC;
-            if(player->source.x > SOURCE_POS_PLAYER_JUMP_LEFT_X + 3 * SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC){
-                player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
+}
+
+
+void AnimateGameKick(fighter *player, Time *T){
+
+    /* TODO  : RANGER LES VALEURS DANS DES #defines*/
+    if(player->p == STANDING || player->p == KNELT || player->p == KICK){
+        if(player->p != KICK){
+            if(player->r == RIGHT){
+                player->source.x = 2;
+                player->source.y = 350;
             }
-            else{
-                player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
+            if(player->r == LEFT)
+            {
+                player->rcSprite.x  = player->rcSprite.x - 10;
+                player->source.x = 200;
+                player->source.y = 415;
             }
-            update_previousTime(T);
+            player->source.w = 50;
+            player->p = KICK;
         }
-        if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_X_LIMIT){
-            player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
-            player->p = STANDING;
+        if(player->r == RIGHT){
+            update_currentTime(T);
+            if(time_gap(*T) > 100){
+                player->source.x = player->source.x + 50;
+                update_previousTime(T);
+            }
+            if(player->source.x > 4 * 50){
+                player->p = STANDING;
+                player->source.w = DEFAULT_SPRITE_WIDTH;
+            }
+        }
+        if(player->r == LEFT){
+
+            update_currentTime(T);
+            if(time_gap(*T) > 100){
+                player->source.x = player->source.x - 50;
+                update_previousTime(T);
+            }
+            if(player->source.x < 50){
+                player->p = STANDING;
+                player->rcSprite.x = player->rcSprite.x + 10;
+                player->source.w = DEFAULT_SPRITE_WIDTH;
+            }
         }
     }
+
+
+
 }
 

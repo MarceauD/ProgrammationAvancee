@@ -45,6 +45,9 @@ int main(int argc, char *argv[]){
         if(player.p == JUMP){
             AnimateGameUp(&player, &T);
         }
+        if(player.p == KICK){
+            AnimateGameKick(&player,&T);
+        }
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
         SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
 
