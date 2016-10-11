@@ -1,10 +1,9 @@
-#ifndef FIGHTER_H
-#define FIGHTER_H
-
-#include "SDL/SDL.h"
+#include "SDL.h"
 #include "stdbool.h"
 #include "defines.h"
 
+#ifndef FIGHTER_H
+#define FIGHTER_H
 
 enum rotation{
     LEFT,
@@ -21,11 +20,17 @@ enum position{
 struct fighter{
     SDL_Surface* sprite;
     SDL_Rect source;
-    SDL_Rect rcSprite; //sprite's position on screen
+    
+    /*sprite's position on screen*/
+    SDL_Rect rcSprite; 
     int lifepoints;
     int damage;
-    enum rotation r; //which side does the fighters look towards 0 : LEFT, 1 : RIGHT, default is right
-    enum position p; //standing up : 1, kneeling down : 0
+    
+    /*which side does the fighters look towards 0 : LEFT, 1 : RIGHT, default is right*/
+    enum rotation r;
+    
+    /*standing up : 1, kneeling down : 0*/
+    enum position p;
     SDL_Rect hitbox;
 };
 
@@ -41,19 +46,35 @@ struct background{
 typedef struct background background;
 
 /*STRUCT FIGHTER OPERATIONS*/
-extern fighter init_fighter(); //initialise a fighter structure
-extern bool isAlive(fighter F); //check if the fighter's lifepoints are down to zero
-extern int read_lifepoints(fighter F); //return the amount of lifepoints that a fighter has
-extern int read_damage(fighter F); //return the current damage that a fighter can deal
-extern fighter write_lifepoints(int lifepoints, fighter F); //changes the amount of lifepoints of a fighter
-extern fighter write_damage(int damage, fighter F); //changes the amount of damage that a fighter deals
-extern void FreeFighter(fighter F); //free the memory used by the fighter structure
+    /*initialise a fighter structure*/
+    extern fighter init_fighter();
+
+    /*check if the fighter's lifepoints are down to zero*/
+    extern bool isAlive(fighter F); 
+
+    /*return the amount of lifepoints that a fighter has*/
+    extern int read_lifepoints(fighter F);
+
+    /*return the current damage that a fighter can deal*/
+    extern int read_damage(fighter F);
+
+    /*changes the amount of lifepoints of a fighter*/
+    extern fighter write_lifepoints(int lifepoints, fighter F);
+    
+    /*changes the amount of damage that a fighter deals*/
+    extern fighter write_damage(int damage, fighter F);
+    
+    /*free the memory used by the fighter structure*/
+    extern void FreeFighter(fighter F);
 
 /*STRUCT BACKGROUND OPERATIONS*/
-extern background init_background(); //initialise a background structure
-extern void FreeBackground(background bg); //free the memory used by the background structure
+    /*initialise a background structure*/
+    extern background init_background();
 
+    /*free the memory used by the background structure*/
+    extern void FreeBackground(background bg); 
 
-extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file); //load a BMP Image
+    /*load a BMP Image*/
+    extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file); 
 
 #endif // FIGHTER_H
