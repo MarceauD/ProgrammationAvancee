@@ -18,26 +18,30 @@ SDL_Surface* loadImage(SDL_Surface* sprite,char* file){
 
 
 /*fighter structure*/
-fighter init_fighter(){
+fighter init_fighter(int fighter_kind){
         fighter F;
         
         /* load sprite*/
         F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
-        
         /* setup sprite colorkey and turn on RLE */
-        SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
-
+	  SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
+	  
         /*sprite's rectangle position*/
         F.source.x = 0;
         F.source.y = 0;
         F.source.h = SPRITE_HEIGHT;
         F.source.w = SPRITE_WIDTH;
-
+	if(fighter_kind == 0){
         /*sprite's position in the game*/
         F.rcSprite.x = DEFAULT_SPRITE_POSITION_X;
         F.rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
         F.rcSprite.h = DEFAULT_SPRITE_HEIGHT;
         F.rcSprite.w = DEFAULT_SPRITE_WIDTH;
+	}
+	if(fighter_kind == 1){
+	  F.rcSprite.x = DEFAULT_ENEMY_POSITION_X;
+	  F.rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
+	}
 
         /*lifepoints and damagepoints*/
         F = write_lifepoints(DEFAULT_LIFEPOINTS,F);
@@ -55,7 +59,6 @@ fighter init_fighter(){
 }
 
 /*Used fonctions in the fighter*/
-    /*tests if there is lifepoints, returns 0 if it is alive */
     bool isAlive(fighter F){
             return read_lifepoints(F) == 0;
     }

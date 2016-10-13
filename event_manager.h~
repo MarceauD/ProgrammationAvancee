@@ -11,11 +11,11 @@ extern void KeyboardManager(SDL_Event event, GameState *gameState, fighter *play
 
 /*Animate the game*/
     /*LEFT KEY*/
-    extern void MovePlayerLeft(fighter *player, background *bg, Time *T);
+    extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T);
     extern void AnimatePlayerLeft(fighter *player);
     
     /*RIGHT KEY*/
-    extern void MovePlayerRight(fighter *player, background *bg, Time *T);
+    extern void MovePlayerRight(fighter *player,fighter *enemy, background *bg, Time *T);
     extern void AnimatePlayerRight(fighter *player);
     
     /*DOWN KEY*/

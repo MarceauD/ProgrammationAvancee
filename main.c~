@@ -48,6 +48,7 @@ int main (int argc, char *argv[]) {
         while(!isOver(gameState)){
 
                 /*Handle the keyboard events*/
+		update_currentTime(&T);
                 KeyboardManager(event,&gameState,&player,&bg,&T);
                 //AnimateEnemyRight(&enemy,&player,&T);
 		

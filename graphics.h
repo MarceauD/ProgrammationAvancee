@@ -26,10 +26,8 @@ struct fighter{
     int lifepoints;
     int damage;
     
-    /*which side does the fighters look towards 0 : LEFT, 1 : RIGHT, default is right*/
     enum rotation r;
     
-    /*standing up : 1, kneeling down : 0*/
     enum position p;
     SDL_Rect hitbox;
 };
@@ -47,7 +45,7 @@ typedef struct background background;
 
 /*STRUCT FIGHTER OPERATIONS*/
     /*initialise a fighter structure*/
-    extern fighter init_fighter();
+    extern fighter init_fighter(int fighter_kind);
 
     /*check if the fighter's lifepoints are down to zero*/
     extern bool isAlive(fighter F); 
@@ -63,7 +61,7 @@ typedef struct background background;
     
     /*changes the amount of damage that a fighter deals*/
     extern fighter write_damage(int damage, fighter F);
-    
+
     /*free the memory used by the fighter structure*/
     extern void FreeFighter(fighter F);
 

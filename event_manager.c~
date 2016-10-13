@@ -53,25 +53,31 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,back
 
 /*handeling directions*/
     /*LEFT*/
-    void AnimatePlayerLeft(fighter *player){
-	if(player->source.x != SOURCE_POS_PLAYER_STANDING_LEFT_X || player->source.y != SOURCE_POS_PLAYER_STANDING_LEFT_Y){
+
+
+    void AnimatePlayerLeft(fighter *player, Time *T){
+	if(player->source.x != SOURCE_POS_PLAYER_STANDING_LEFT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_LEFT_Y){
                             player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
                             player->source.y = SOURCE_POS_PLAYER_STANDING_LEFT_Y;
                             player->r = LEFT;
                             player->p = STANDING;
-	}
-	player->source.x = player->source.x + SOURCE_POS_PLAYER_STANDING_LEFT_ACC;      
-        if(player->source.x < SOURCE_POS_PLAYER_STANDING_LEFT_LIMIT_X){
-              player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
-        }
-}
-void MovePlayerLeft(fighter *player, background *bg, Time *T){
+                    }
+                    
                     update_currentTime(T);
-		    if(time_gap(*T) > TIME_BTW_ANIMATIONS){
-		      AnimatePlayerLeft(player);
-		      update_previousTime(T);
-		     } 
-                    bg->source.x = bg->source.x - 1;                
+                    
+                    if(time_gap(*T) >  TIME_BTW_ANIMATIONS){
+                            player->source.x = player->source.x + SOURCE_POS_PLAYER_STANDING_LEFT_ACC;
+                            update_previousTime(T);
+                    }
+                    
+                    if(player->source.x < SOURCE_POS_PLAYER_STANDING_LEFT_LIMIT_X){
+                            player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
+                    }
+
+}
+    void MovePlayerLeft(fighter *player, background *bg, Time *T){
+                    bg->source.x = bg->source.x - 1;
+                    AnimatePlayerLeft(player,T);                 
                     if (bg->source.x < SOURCE_POS_BG_LEFT_LIMIT_X){
                             bg->source.x = SOURCE_POS_BG_LEFT_LIMIT_X;
                             player->rcSprite.x = player->rcSprite.x - 1;
@@ -83,15 +89,20 @@ void MovePlayerLeft(fighter *player, background *bg, Time *T){
 
 
     /*RIGHT*/
-    void AnimatePlayerRight(fighter *player){
-    if(player->source.x != SOURCE_POS_PLAYER_STANDING_RIGHT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_RIGHT_Y){
+    void AnimatePlayerRight(fighter *player, Time*T){
+	if(player->source.x != SOURCE_POS_PLAYER_STANDING_RIGHT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_RIGHT_Y){
                             player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
                             player->source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
                             player->r = RIGHT;
                             player->p = STANDING;
-    } 
+                    }
                     
-                    player->source.x = player->source.x + SOURCE_POS_PLAYER_STANDING_RIGHT_ACC;
+                    update_currentTime(T);
+                    
+                    if(time_gap(*T) > TIME_BTW_ANIMATIONS){
+                            player->source.x = player->source.x + SOURCE_POS_PLAYER_STANDING_RIGHT_ACC;
+                            update_previousTime(T);
+                    }
                     
                     if(player->source.x > SOURCE_POS_PLAYER_STANDING_RIGHT_LIMIT_X){
                             player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
@@ -100,14 +111,10 @@ void MovePlayerLeft(fighter *player, background *bg, Time *T){
 
 }
 
-void MovePlayerRight(fighter *player, background *bg, Time *T){
-  update_currentTime(T);
-  if(time_gap(*T) > TIME_BTW_ANIMATIONS){
-    AnimatePlayerRight(player);
-    update_previousTime(T);
-  }
-  bg->source.x = bg->source.x + 1;
-              if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
+    void MovePlayerRight(fighter *player, background *bg, Time *T){
+                    bg->source.x = bg->source.x + 1;
+              	    AnimatePlayerRight(player, T);
+                    if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
                             bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
                             player->rcSprite.x = player->rcSprite.x + 1;
                             if(player->rcSprite.x > RECT_POS_PLAYER_RIGHT_LIMIT_X){
@@ -147,9 +154,9 @@ void MovePlayerRight(fighter *player, background *bg, Time *T){
                     }
                     
                     if(player->r == RIGHT){
-		      update_currentTime(T);
+                            update_currentTime(T);
                             
-		         if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+                            if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
                                     player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC;
                                     
                                     if(player->source.x < SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC * 3){
@@ -161,16 +168,16 @@ void MovePlayerRight(fighter *player, background *bg, Time *T){
                                     }
 
                                     update_previousTime(T);
-				     }
+                            }
                             if(player->source.x > SOURCE_POS_PLAYER_JUMP_RIGHT_X_LIMIT){
                                 player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
                                 player->p = STANDING;
                             }
                     }
                     if(player->r == LEFT){
-		      update_currentTime(T);
+                            update_currentTime(T);
                             
-		          if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+                            if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
                                     player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC;
                                     
                                     if(player->source.x > SOURCE_POS_PLAYER_JUMP_LEFT_X + 3 * SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC){
@@ -181,8 +188,8 @@ void MovePlayerRight(fighter *player, background *bg, Time *T){
                                             player->rcSprite.y = player->rcSprite.y + JUMP_HEIGHT;
                                     }
                                     
-				   update_previousTime(T);
-				    }
+                                    update_previousTime(T);
+                            }
                             if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_X_LIMIT){
                                     player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
                                     player->p = STANDING;
@@ -210,24 +217,24 @@ void MovePlayerRight(fighter *player, background *bg, Time *T){
                             player->p = KICK;
                     }
                     if(player->r == RIGHT){
-		      update_currentTime(T);
+                            update_currentTime(T);
                             
-		         if(time_gap(*T) > TIME_BTW_ANIMATIONS){
+                            if(time_gap(*T) > 100){
                                     player->source.x = player->source.x + 50;
                                     update_previousTime(T);
-				        }
+                            }
                             if(player->source.x > 4 * 50){
                                     player->p = STANDING;
                                     player->source.w = DEFAULT_SPRITE_WIDTH;
                             }
                     }
                     if(player->r == LEFT){
-		       update_currentTime(T);
+                            update_currentTime(T);
                             
-		          if(time_gap(*T) > TIME_BTW_ANIMATIONS){
+                            if(time_gap(*T) > 100){
                                     player->source.x = player->source.x - 50;
-			            update_previousTime(T);
-				    }
+                                    update_previousTime(T);
+                            }
                             if(player->source.x < 50){
                                     player->p = STANDING;
                                     player->rcSprite.x = player->rcSprite.x + 10;
@@ -240,12 +247,8 @@ void MovePlayerRight(fighter *player, background *bg, Time *T){
 void AnimateEnemyRight(fighter *enemy, fighter *player, Time *T){
 	enemy->r = RIGHT;
 	if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
-	  update_currentTime(T);
-	  if(time_gap(*T) > TIME_BTW_ANIMATIONS){
-	    AnimatePlayerRight(enemy);
-	    update_previousTime(T);
-	  }
-	    enemy->rcSprite.x = enemy->rcSprite.x + 1;
+		enemy->rcSprite.x = enemy->rcSprite.x + 1;
+		AnimatePlayerUp(enemy,T);
 	}
 }
 
