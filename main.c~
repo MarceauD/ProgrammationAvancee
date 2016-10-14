@@ -49,7 +49,7 @@ int main (int argc, char *argv[]) {
 
             /*Handle the keyboard events*/
         KeyboardManager(event,&gameState,&player,&enemy,&bg,&T);
-        AnimateEnemyRight(&enemy,&player,&T);
+        //AnimateEnemyRight(&enemy,&player,&T);
 
             //animate the player jumping
         if(player.p == JUMP){

@@ -254,7 +254,7 @@ void AnimateEnemyRight(fighter *enemy, fighter *player, Time *T){
 
 
 void PlayerHitEnemy(fighter *player, fighter *enemy){
-	if(collision(player->rcSprite,enemy->rcSprite) && ((player->r == LEFT && enemy->r == RIGHT) || (player->r == RIGHT && enemy->r == LEFT))){
+	if(collision(player->rcSprite,enemy->rcSprite) && ((player->r == LEFT && enemy->r == RIGHT) || (player->r == RIGHT || enemy->r == LEFT))){
 		*enemy = write_lifepoints(read_lifepoints(*enemy)-read_damage(*player),*enemy);		
 	}
 }
