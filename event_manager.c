@@ -1,4 +1,5 @@
 #include"event_manager.h"
+#include "graphics.h"
 
 /* handle keyboard*/
 void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
@@ -17,12 +18,14 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
 
         if (keystate[SDLK_LEFT]){
 		if(player->p == STANDING || player->p == KNELT){
+			AnimatePlayerLeft(player);
                 	MovePlayerLeft(player,enemy, bg, T);
 		}
         }
 
         if (keystate[SDLK_RIGHT]){
 		if(player->p == STANDING || player->p == KNELT){
+			AnimatePlayerRight(player);
                 	MovePlayerRight(player,enemy, bg, T);
 		}
         }
@@ -44,7 +47,11 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
                 	AnimatePlayerKick(player, enemy,T);
 		}
         }
-
+	if(keystate[SDLK_o]){
+		if(!isAlive(*enemy)){
+			*enemy = init_fighter(1);
+		}
+	}
         if(keystate[SDLK_q]){
                 *gameState = write_EndProgramStatus(true,*gameState);
         }
@@ -73,16 +80,13 @@ void AnimatePlayerLeft(fighter *player){
 }
 
 void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
-    update_currentTime(T);
-    if(time_gap(*T) > TIME_BTW_ANIMATIONS){
-        AnimatePlayerLeft(player);
-        update_previousTime(T);
-    }
+    //AnimatePlayerLeft(player);
     if(!collision(player->rcSprite,enemy->rcSprite) || !isAlive(*enemy)){
-	bg->source.x = bg->source.x - 1;
+	bg->source.x = bg->source.x - 10;
+	MoveEnemyRight(enemy,player,T);
 	if (bg->source.x < SOURCE_POS_BG_LEFT_LIMIT_X){
 		bg->source.x = SOURCE_POS_BG_LEFT_LIMIT_X;	
-		player->rcSprite.x = player->rcSprite.x - 1;
+		player->rcSprite.x = player->rcSprite.x - 10;
 		if(player->rcSprite.x < RECT_POS_PLAYER_LEFT_LIMIT_X){
 			player->rcSprite.x = RECT_POS_PLAYER_LEFT_LIMIT_X;
 		}
@@ -106,16 +110,12 @@ void AnimatePlayerRight(fighter *player){
 }
 
 void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
-    update_currentTime(T);
-    if(time_gap(*T) > TIME_BTW_ANIMATIONS){
-        AnimatePlayerRight(player);
-        update_previousTime(T);
-    }
+    //AnimatePlayerRight(player);
     if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
-	    bg->source.x = bg->source.x + 1;
+	    bg->source.x = bg->source.x + 10;
 	    if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
 		bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
-		player->rcSprite.x = player->rcSprite.x + 1;
+		player->rcSprite.x = player->rcSprite.x + 10;
 		if(player->rcSprite.x > RECT_POS_PLAYER_RIGHT_LIMIT_X){
 		    player->rcSprite.x = RECT_POS_PLAYER_RIGHT_LIMIT_X;
 		}
@@ -153,7 +153,7 @@ void AnimatePlayerUp(fighter *player, Time *T){
 
     if(player->r == RIGHT){
         update_currentTime(T);
-        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+        if(time_gap(*T) > TIME_BTW_ANIMATIONS){
             player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC;
             if(player->source.x < SOURCE_POS_PLAYER_JUMP_RIGHT_X_ACC * 3){
                 player->rcSprite.y = player->rcSprite.y - JUMP_HEIGHT;
@@ -171,7 +171,7 @@ void AnimatePlayerUp(fighter *player, Time *T){
     }
     if(player->r == LEFT){
         update_currentTime(T);
-        if(time_gap(*T) > TIME_BTW_ANIMATIONS - 50){
+        if(time_gap(*T) > TIME_BTW_ANIMATIONS){
             player->source.x = player->source.x + SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC;
 
             if(player->source.x > SOURCE_POS_PLAYER_JUMP_LEFT_X + 3 * SOURCE_POS_PLAYER_JUMP_LEFT_X_ACC){
@@ -239,15 +239,13 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
 }
 
 
-void AnimateEnemyRight(fighter *enemy, fighter *player, Time *T){
+void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
 	enemy->r = RIGHT;
 	if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
-	  update_currentTime(T);
-	  if(time_gap(*T) > TIME_BTW_ANIMATIONS){
 	    AnimatePlayerRight(enemy);
-	    update_previousTime(T);
-	  }
-	    enemy->rcSprite.x = enemy->rcSprite.x + 2;
+	
+	  
+	    enemy->rcSprite.x = enemy->rcSprite.x + 10;
 	}
 }
 

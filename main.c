@@ -47,10 +47,9 @@ int main (int argc, char *argv[]) {
 /* message pump */
     while(!isOver(gameState)){
 
-            /*Handle the keyboard events*/
+       	/*Handle the keyboard events*/
         KeyboardManager(event,&gameState,&player,&enemy,&bg,&T);
-        AnimateEnemyRight(&enemy,&player,&T);
-
+        MoveEnemyRight(&enemy,&player,&T);
             //animate the player jumping
         if(player.p == JUMP){
             AnimatePlayerUp(&player,&T);
@@ -59,6 +58,7 @@ int main (int argc, char *argv[]) {
         if(player.p == KICK){
             AnimatePlayerKick(&player,&enemy,&T);
         }
+	
 
         /* draw the surface */
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);

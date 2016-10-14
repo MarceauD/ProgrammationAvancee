@@ -28,9 +28,9 @@ extern void AnimatePlayerUp(fighter *player, Time *T);
     /*KICKING KEY*/
 extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T);
 
-extern void AnimateEnemyRight(fighter *enemy, fighter *player, Time *T);
+extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);
 
-extern void AnimateEnemyRight(fighter *enemy, fighter *player, Time *T);
+extern void MoveEnemyLeft(fighter *enemy, fighter *player, Time *T);
 
 extern bool collision(SDL_Rect A, SDL_Rect B);
 

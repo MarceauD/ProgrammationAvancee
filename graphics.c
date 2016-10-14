@@ -60,7 +60,7 @@ fighter init_fighter(int fighter_kind){
 
 /*Used fonctions in the fighter*/
 bool isAlive(fighter F){
-    return read_lifepoints(F) != 0;
+    return read_lifepoints(F) > 0;
 }
 
     /*reading fonctions*/
