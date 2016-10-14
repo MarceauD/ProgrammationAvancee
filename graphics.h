@@ -30,6 +30,8 @@ struct fighter{
 
     enum position p;
     SDL_Rect hitbox;
+
+    int previousTime;
 };
 
 typedef struct fighter fighter;

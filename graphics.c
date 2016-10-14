@@ -23,7 +23,7 @@ fighter init_fighter(int fighter_kind){
 
     /* load sprite*/
     if(fighter_kind == 0){
-      
+
       F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
     }
     if(fighter_kind == 1){
@@ -49,7 +49,7 @@ fighter init_fighter(int fighter_kind){
 	  F.rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
 	}
 
-    /*lifepoints and damagepoints*/
+    /*lifepoints and damage points*/
     F = write_lifepoints(DEFAULT_LIFEPOINTS,F);
     F = write_damage(DEFAULT_HITDAMAGE,F);
 
@@ -59,6 +59,8 @@ fighter init_fighter(int fighter_kind){
 
     //EN ATTENTE D'UNE MEILLEURE DEFINITION
     F.hitbox = F.rcSprite;
+
+    F.previousTime = 0;
 
     return F;
 
