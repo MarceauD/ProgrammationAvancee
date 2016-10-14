@@ -22,7 +22,13 @@ fighter init_fighter(int fighter_kind){
     fighter F;
 
     /* load sprite*/
-    F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
+    if(fighter_kind == 0){
+      
+      F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
+    }
+    if(fighter_kind == 1){
+      F.sprite = loadImage(F.sprite,"sprite_enemy.bmp");
+    }
     /* setup sprite colorkey and turn on RLE */
     SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
 
