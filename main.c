@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "SDL.h"
-#include "defines.h"
-#include "gamestate.h"
-#include "graphics.h"
-#include "event_manager.h"
+#include "h/defines.h"
+#include "h/gamestate.h"
+#include "h/graphics.h"
+#include "h/event_manager.h"
 
-int main (int argc, char *argv[]) {
+int main () {
 
     /* explication : ?*/
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -63,8 +63,11 @@ int main (int argc, char *argv[]) {
         /* draw the surface */
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
 
-    /* draw the player */
-        SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
+    /* draw the player if he is alive */
+    if(isAlive(player)){
+            SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
+	}
+    /*same for ennemis*/
 	if(isAlive(enemy)){
         	SDL_BlitSurface(enemy.sprite,&enemy.source,screen,&enemy.rcSprite);
 	}
@@ -72,7 +75,7 @@ int main (int argc, char *argv[]) {
     /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-        SDL_Delay(10);
+//         SDL_Delay(10);
     }
 
 /* clean up */
