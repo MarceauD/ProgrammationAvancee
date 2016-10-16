@@ -1,5 +1,5 @@
-#include"event_manager.h"
-#include "graphics.h"
+#include"h/event_manager.h"
+#include "h/graphics.h"
 
 /* handle keyboard*/
 void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
@@ -56,46 +56,29 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
 
 }
 
+/*collision detect*/
 bool collision(SDL_Rect A, SDL_Rect B){
 	return (A.x < B.x - (SPRITE_WIDTH) || B.x + (SPRITE_WIDTH) > A.x);
 }
 
 
 
-/*handeling directions*/
+/*animations*/
     /*LEFT*/
 void AnimatePlayerLeft(fighter *player){
+    /*position the player in the right way to walk left*/
     if((player->source.x != SOURCE_POS_PLAYER_STANDING_LEFT_X && player->source.y != SOURCE_POS_PLAYER_STANDING_LEFT_Y)){
         player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
         player->source.y = SOURCE_POS_PLAYER_STANDING_LEFT_Y;
         player->r = LEFT;
         player->p = STANDING;
 	}
+    /*animate left walking*/
 	player->source.x = player->source.x + SOURCE_POS_PLAYER_STANDING_LEFT_ACC;
     if(player->source.x < SOURCE_POS_PLAYER_STANDING_LEFT_LIMIT_X){
         player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
     }
 }
-
-void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
-    update_currentTime(T);
-    if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
-        AnimatePlayerLeft(player);
-        player->previousTime = T->currentTime;
-    }
-    if(!collision(player->rcSprite,enemy->rcSprite) || !isAlive(*enemy)){
-	bg->source.x = bg->source.x - 1;
-	MoveEnemyRight(enemy,player,T);
-	if (bg->source.x < SOURCE_POS_BG_LEFT_LIMIT_X){
-		bg->source.x = SOURCE_POS_BG_LEFT_LIMIT_X;
-		player->rcSprite.x = player->rcSprite.x - 1;
-		if(player->rcSprite.x < RECT_POS_PLAYER_LEFT_LIMIT_X){
-			player->rcSprite.x = RECT_POS_PLAYER_LEFT_LIMIT_X;
-		}
-	}
-    }
-}
-
 
     /*RIGHT*/
 void AnimatePlayerRight(fighter *player){
@@ -111,25 +94,7 @@ void AnimatePlayerRight(fighter *player){
     }
 }
 
-void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
-    update_currentTime(T);
-    if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
-        AnimatePlayerRight(player);
-        player->previousTime = T->currentTime;
-    }
-    if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
-	    bg->source.x = bg->source.x + 1;
-	    if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
-		bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
-		player->rcSprite.x = player->rcSprite.x + 1;
-		if(player->rcSprite.x > RECT_POS_PLAYER_RIGHT_LIMIT_X){
-		    player->rcSprite.x = RECT_POS_PLAYER_RIGHT_LIMIT_X;
-		}
-	    }
-    }
-}
-
-/*DOWN*/
+    /*DOWN*/
 void AnimatePlayerDown(fighter *player){
     player->p = KNELT;
     if(player->r == RIGHT){
@@ -244,24 +209,76 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
 }
 
 
+/*hitbox*/
+void PlayerHitEnemy(fighter *player, fighter *enemy){
+	if(collision(player->rcSprite,enemy->rcSprite) && ((player->r == LEFT && enemy->r == RIGHT) || (player->r == RIGHT && enemy->r == LEFT))){
+		*enemy = write_lifepoints(read_lifepoints(*enemy)-read_damage(*player),*enemy);
+	}
+}
+
+void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
+    if (player->p != KNELT) {
+        /*activate animation to move left*/
+        update_currentTime(T);
+        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+            AnimatePlayerLeft(player);
+            player->previousTime = T->currentTime;
+        }
+        if(!collision(player->rcSprite,enemy->rcSprite) || !isAlive(*enemy)){
+            if (player->rcSprite.x < SCREEN_WIDTH/2 - SPRITE_WIDTH) {
+            bg->source.x = bg->source.x - 5;
+            }
+            else
+            player->rcSprite.x = player->rcSprite.x - 5;
+            
+            MoveEnemyRight(enemy,player,T);
+            if (bg->source.x < SOURCE_POS_BG_LEFT_LIMIT_X){
+                bg->source.x = SOURCE_POS_BG_LEFT_LIMIT_X;
+                player->rcSprite.x = player->rcSprite.x - 5;
+                if(player->rcSprite.x < RECT_POS_PLAYER_LEFT_LIMIT_X){
+                    player->rcSprite.x = RECT_POS_PLAYER_LEFT_LIMIT_X;
+                }
+            }
+            
+        }
+    }
+}
+
+void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
+    if (player->p != KNELT) {
+        update_currentTime(T);
+        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+            AnimatePlayerRight(player);
+            player->previousTime = T->currentTime;
+        }
+        if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
+            if (player->rcSprite.x > SCREEN_WIDTH/2 - SPRITE_WIDTH) {
+                bg->source.x = bg->source.x + 5;
+            }
+            else
+                player->rcSprite.x = player->rcSprite.x + 5;
+
+            if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
+                bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
+                player->rcSprite.x = player->rcSprite.x + 5;
+                if(player->rcSprite.x > RECT_POS_PLAYER_RIGHT_LIMIT_X){
+                    player->rcSprite.x = RECT_POS_PLAYER_RIGHT_LIMIT_X;
+                }
+            }
+        }
+    }
+}
+
 void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
-	enemy->r = RIGHT;
-	if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
+    enemy->r = RIGHT;
+    if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
         update_currentTime(T);
         if(T->currentTime - enemy->previousTime > TIME_BTW_ANIMATIONS){
             AnimatePlayerRight(enemy);
             enemy->previousTime = T->currentTime;
         }
-	    enemy->rcSprite.x = enemy->rcSprite.x + 1;
-	}
-}
-
-
-
-void PlayerHitEnemy(fighter *player, fighter *enemy){
-	if(collision(player->rcSprite,enemy->rcSprite) && ((player->r == LEFT && enemy->r == RIGHT) || (player->r == RIGHT && enemy->r == LEFT))){
-		*enemy = write_lifepoints(read_lifepoints(*enemy)-read_damage(*player),*enemy);
-	}
+        enemy->rcSprite.x = enemy->rcSprite.x + 1;
+    }
 }
 
 

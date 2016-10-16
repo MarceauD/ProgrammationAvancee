@@ -1,4 +1,5 @@
-#include "graphics.h"
+#include "h/graphics.h"
+
 /*load BMP sprite*/
 SDL_Surface* loadImage(SDL_Surface* sprite,char* file){
     SDL_Surface* temp;
@@ -24,10 +25,10 @@ fighter init_fighter(int fighter_kind){
     /* load sprite*/
     if(fighter_kind == 0){
 
-      F.sprite = loadImage(F.sprite,"sprite_fighter.bmp");
+      F.sprite = loadImage(F.sprite,"sprites/sprite_fighter.bmp");
     }
     if(fighter_kind == 1){
-      F.sprite = loadImage(F.sprite,"sprite_enemy.bmp");
+      F.sprite = loadImage(F.sprite,"sprites/sprite_enemy.bmp");
     }
     /* setup sprite colorkey and turn on RLE */
     SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
@@ -101,13 +102,13 @@ void FreeFighter(fighter F){
 background init_background(){
     background bg;
 
-    bg.surface = loadImage(bg.surface,"background.bmp");
+    bg.surface = loadImage(bg.surface,"sprites/background.bmp");
 
     bg.rcBG.x = 0;
-    bg.rcBG.y = TOP_HEIGHT;
+    bg.rcBG.y = 0;
 
     bg.source.x = BACKGROUND_WIDTH / 2;
-    bg.source.y = 0;
+    //bg.source.y = 0;
     bg.source.w = SCREEN_WIDTH;
     bg.source.h = SCREEN_HEIGHT;
 
