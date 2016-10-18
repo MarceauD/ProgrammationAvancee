@@ -71,7 +71,6 @@ void viewQueue(queue *Q)
 
     while (element != NULL)
     {
-        printf("%d ", element->F);
         element = element->next;
     }
 

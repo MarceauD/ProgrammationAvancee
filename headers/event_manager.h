@@ -6,9 +6,9 @@
 #include "graphics.h"
 #include "gamestate.h"
 #include "stdbool.h"
+#include "keyboard.h"
 
-/*Handle the keyboard events*/
-extern void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,fighter *enemy,background* bg, Time *T); //Handles the keyboard events
+
 
 /*Animate the game*/
     /*LEFT KEY*/

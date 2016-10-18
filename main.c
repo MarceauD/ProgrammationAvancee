@@ -8,7 +8,7 @@
 #include "headers/event_manager.h"
 #include "headers/queue.h"
 
-int main (int argc, char *argv[]) {
+int main () {
 
     /* explication : ?*/
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
