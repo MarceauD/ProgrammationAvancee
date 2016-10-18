@@ -2,12 +2,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "SDL.h"
-#include "h/defines.h"
-#include "h/gamestate.h"
-#include "h/graphics.h"
-#include "h/event_manager.h"
+#include "headers/defines.h"
+#include "headers/gamestate.h"
+#include "headers/graphics.h"
+#include "headers/event_manager.h"
+#include "headers/queue.h"
 
-int main () {
+int main (int argc, char *argv[]) {
 
     /* explication : ?*/
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -58,7 +59,7 @@ int main () {
         if(player.p == KICK){
             AnimatePlayerKick(&player,&enemy,&T);
         }
-	
+
 
         /* draw the surface */
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
@@ -75,7 +76,7 @@ int main () {
     /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-//         SDL_Delay(10);
+        SDL_Delay(10);
     }
 
 /* clean up */
