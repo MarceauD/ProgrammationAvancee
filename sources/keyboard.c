@@ -47,7 +47,7 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
         }
 	if(keystate[SDLK_o]){
 		if(!isAlive(*enemy)){
-			*enemy = init_fighter(1);
+			*enemy = init_fighter(GRABBING_ENEMY);
 		}
 	}
         if(keystate[SDLK_q]){

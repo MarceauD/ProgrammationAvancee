@@ -10,6 +10,15 @@ enum rotation{
     RIGHT,
 };
 
+enum fighter_kind{
+    PLAYER,
+    GRABBING_ENEMY,
+    PUNCHING_ENEMY,
+    KNIVES_THROWING_ENEMY,
+};
+
+typedef enum fighter_kind fighter_kind;
+
 enum position{
     STANDING,
     KNELT,
@@ -47,7 +56,7 @@ typedef struct background background;
 
 /*STRUCT FIGHTER OPERATIONS*/
 /*initialise a fighter structure*/
-extern fighter init_fighter(int fighter_kind);
+extern fighter init_fighter(fighter_kind FK);
 
 /*check if the fighter's lifepoints are down to zero*/
 extern bool isAlive(fighter F);

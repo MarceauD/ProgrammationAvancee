@@ -222,7 +222,15 @@ void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
             enemy->previousTime = T->currentTime;
         }
         enemy->rcSprite.x = enemy->rcSprite.x + 1;
-
+    }
+    else{
+        if(isAlive(*enemy)){
+            update_currentTime(T);
+            if(time_gap(*T) > 1000){
+                *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
+                update_previousTime(T);
+            }
+        }
     }
 }
 

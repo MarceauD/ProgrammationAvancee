@@ -8,7 +8,11 @@
 #include "headers/event_manager.h"
 #include "headers/queue.h"
 
-int main () {
+int main (int argc, char *argv[]) {
+
+    freopen("CON", "w", stdout);
+    freopen("CON", "r", stdin);
+    freopen("CON", "w", stderr);
 
     /* explication : ?*/
     if (SDL_Init(SDL_INIT_VIDEO) < 0){
@@ -40,8 +44,8 @@ int main () {
 
     /*initialisation des variables */
     gameState = init_GameState();
-    player = init_fighter(0);
-    enemy = init_fighter(1);
+    player = init_fighter(PLAYER);
+    enemy = init_fighter(GRABBING_ENEMY);
     bg = init_background();
     T = init_Time();
 

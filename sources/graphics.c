@@ -19,15 +19,15 @@ SDL_Surface* loadImage(SDL_Surface* sprite,char* file){
 
 
 /*fighter structure*/
-fighter init_fighter(int fighter_kind){
+fighter init_fighter(fighter_kind FK){
     fighter F;
 
     /* load sprite*/
-    if(fighter_kind == 0){
+    if(FK == PLAYER){
 
       F.sprite = loadImage(F.sprite,"sprites/sprite_fighter.bmp");
     }
-    if(fighter_kind == 1){
+    if(FK == GRABBING_ENEMY){
       F.sprite = loadImage(F.sprite,"sprites/sprite_enemy.bmp");
     }
     /* setup sprite colorkey and turn on RLE */
@@ -38,23 +38,29 @@ fighter init_fighter(int fighter_kind){
     F.source.y = 0;
     F.source.h = SPRITE_HEIGHT;
     F.source.w = SPRITE_WIDTH;
-    if(fighter_kind == 0){
+    if(FK == PLAYER){
         /*sprite's position in the game*/
         F.rcSprite.x = DEFAULT_SPRITE_POSITION_X;
         F.rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
         F.rcSprite.h = DEFAULT_SPRITE_HEIGHT;
         F.rcSprite.w = DEFAULT_SPRITE_WIDTH;
 	}
-	if(fighter_kind == 1){
+	if(FK == GRABBING_ENEMY){
 	  F.rcSprite.x = DEFAULT_ENEMY_POSITION_X;
 	  F.rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
 	}
 
     /*lifepoints and damage points*/
-    F = write_lifepoints(DEFAULT_LIFEPOINTS,F);
-    F = write_damage(DEFAULT_HITDAMAGE,F);
+    if(FK == PLAYER){
+        F = write_lifepoints(DEFAULT_PLAYER_LIFEPOINTS,F);
+        F = write_damage(DEFAULT_PLAYER_HITDAMAGE,F);
+    }
+    if(FK == GRABBING_ENEMY){
+        F = write_lifepoints(DEFAULT_GRABBING_ENEMY_LIFEPOINTS,F);
+        F = write_damage(DEFAULT_GRABBING_ENEMY_HITDAMAGE,F);
+    }
 
-    /*position : direction and standing/kneeling*/
+
     F.r = RIGHT;
     F.p = STANDING;
 
