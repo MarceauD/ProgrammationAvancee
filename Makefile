@@ -1,5 +1,5 @@
-SRC = main.c sources/gamestate.c sources/graphics.c sources/event_manager.c sources/queue.c sources/keyboard.c
-INC = headers/defines.h headers/gamestate.h headers/graphics.h headers/event_manager.h headers/keyboard.h
+SRC = main.c sources/gamestate.c sources/graphics.c sources/event_manager.c sources/queue.c sources/keyboard.c sources/interface.c sources/level.c
+INC = headers/defines.h headers/gamestate.h headers/graphics.h headers/event_manager.h headers/keyboard.h headers/interface.h headers/level.h
 
 # SRC = $(wildcard *.c)
 # INC = $(wildcard *.h)
