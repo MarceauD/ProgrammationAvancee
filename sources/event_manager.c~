@@ -174,8 +174,8 @@ void AnimatePlayerDeath(fighter *player, Time * T){
 			 player->source.x = player->source.x + 50;
            		 player->previousTime = T->currentTime;
         		}
-        		if(player->source.x > 240 ){
-			   player->source.x = 240;
+        		if(player->source.x > 207 ){
+			   player->source.x = 207;
 			   player->p = DEAD;
 			}
 	}		

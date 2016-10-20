@@ -7,6 +7,7 @@
 #include "headers/graphics.h"
 #include "headers/event_manager.h"
 #include "headers/queue.h"
+#include "headers/interface.h"
 
 int main (int argc, char *argv[]) {
 
@@ -26,6 +27,7 @@ int main (int argc, char *argv[]) {
     /*definition des variables*/
     SDL_Surface* screen;
     fighter player, enemy;
+    LPV LPView;
     GameState gameState;
     background bg;
     Time T;
@@ -48,6 +50,7 @@ int main (int argc, char *argv[]) {
     enemy = init_fighter(GRABBING_ENEMY);
     bg = init_background();
     T = init_Time();
+    LPView = init_LPV(player);
 
 /* message pump */
     while(!isOver(gameState)){
@@ -68,25 +71,36 @@ int main (int argc, char *argv[]) {
         /* draw the surface */
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
 
-    /* draw the player if he is alive */
-    if(isAlive(player)){
-            SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
-	}
-    /*same for ennemis*/
+      
 	if(isAlive(enemy)){
         	SDL_BlitSurface(enemy.sprite,&enemy.source,screen,&enemy.rcSprite);
 	}
-
+	/* draw the player if he is alive */
+	if(!isAlive(player)){
+        	AnimatePlayerDeath(&player,&T);
+		if(player.p == DYING){
+			SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
+		}
+	}
+	else{
+		SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
+	}
+		
+	
+	ViewLifepoints(&LPView,player,screen);
+	
     /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
-
+	
         SDL_Delay(10);
     }
 
 /* clean up */
     SDL_FreeSurface(screen);
     FreeFighter(player);
+    FreeFighter(enemy);
     FreeBackground(bg);
+    FreeLPV(LPView);
     SDL_Quit();
 
     return 0;

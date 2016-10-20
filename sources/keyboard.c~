@@ -23,25 +23,25 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
         }
 
         if (keystate[SDLK_RIGHT]){
-            if(player->p == STANDING || player->p == KNELT && player->p != DEAD && player->p != DYING){
+            if(player->p == STANDING || player->p == KNELT && player->p != DEAD && player->p != DEAD){
                 MovePlayerRight(player,enemy, bg, T);
             }
         }
 
         if(keystate[SDLK_DOWN]){
-            if(player->p == STANDING || player->p == KNELT && player->p != DEAD && player->p != DYING){
+            if(player->p == STANDING || player->p == KNELT && player->p != DEAD && player->p != DEAD){
                 AnimatePlayerDown(player);
             }
         }
 
         if(keystate[SDLK_UP]){
-            if(player->p != KICK && player->p != DEAD && player->p != DYING){
+            if(player->p != KICK && player->p != DEAD && player->p != DEAD){
                 AnimatePlayerUp(player, T);
             }
         }
 
         if(keystate[SDLK_SPACE]){
-            if(player->p != JUMP && player->p != DEAD && player->p != DYING){
+            if(player->p != JUMP && player->p != DEAD && player->p != DEAD){
                 AnimatePlayerKick(player, enemy,T);
             }
         }
