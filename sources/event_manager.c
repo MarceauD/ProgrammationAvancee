@@ -178,7 +178,7 @@ void AnimatePlayerDeath(fighter *player, Time * T){
 			   player->source.x = 240;
 			   player->p = DEAD;
 			}
-	}		
+	}
 	if(player->r == LEFT){
 			update_currentTime(T);
 			if(T->currentTime - player->previousTime > 1000){
@@ -270,7 +270,6 @@ void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
 
 void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 	if(isAlive(*enemy)){
-	    enemy->source.x = 4 * 35;
             update_currentTime(T);
             if(time_gap(*T) > 1000){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy) * 5, *player);
