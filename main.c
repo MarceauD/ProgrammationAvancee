@@ -13,9 +13,9 @@
 
 int main (int argc, char *argv[]) {
 
-    /*freopen("CON", "w", stdout);
+    freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);*/
+    freopen("CON", "w", stderr);
 
 /* set the title bar */
     SDL_WM_SetCaption(GAME_TITLE,GAME_TITLE);
