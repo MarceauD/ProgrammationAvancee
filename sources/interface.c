@@ -41,7 +41,8 @@ void FreeLPV(LPV Lifepoints){
 Pause init_Pause(){
     Pause P;
     P.sprite = loadImage(P.sprite, "sprites/pause.bmp");
-    SDL_SetColorKey(P.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(P.sprite->format,39,82,39));
+    //SDL_SetColorKey(P.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(P.sprite->format,39,82,39));
+    SDL_SetAlpha(P.sprite,SDL_SRCALPHA,1);
 
     P.rcSprite.x = 0;
     P.rcSprite.y = 0;
