@@ -38,7 +38,7 @@ int main (int argc, char *argv[]) {
     SDL_Surface* screen;
 	SDL_Event event;
 	//int n, i, j, k, alea_enemy, relaunch;
-    fighter player, enemy;//, enemysLeft[100];
+    fighter player, enemy, enemysLeft[100];
     GameState gameState;
     background bg;
 	LPV LPView;
@@ -65,9 +65,7 @@ int main (int argc, char *argv[]) {
 
 	for (i=0; i<Left; i++)
 	{
-		enemysLeft[i] = init_fighter(1);//on charge 10 ennemis (de type 1 pr l'instant)
-		if (i>0)
-			enemysLeft[i].rcSprite.x = enemysLeft[i-1].rcSprite.x + 100;
+		enemysLeft[i] = init_fighter(GRABBING_ENEMY);//on charge 10 ennemis (de type 1 pr l'instant)
 	}*/
 
 /* message pump */
@@ -84,16 +82,7 @@ int main (int argc, char *argv[]) {
         BlitImages(&bg, &player, &enemy, screen, &T);
 
 		//tant qu'on a notre file d'ennemis Left
-		/*while (n+1 < Left)
-		{
-			k = n;
-			alea_enemy = rand()%3;
-			printf("\nenemy position per default = %d \n", DEFAULT_ENEMY_POSITION_X - (DEFAULT_SPRITE_POSITION_X - 200));
-			printf("\nalea_enemy = %d \n", alea_enemy);
-			n += alea_enemy+1;
-			printf("\n	n = %d + %d = %d \n", k,alea_enemy+1,n);
-		}
-		for (j=0; j<10; j++)
+		/*for (j=0; j<1; j++)
 		{
 			SDL_BlitSurface(enemysLeft[j].sprite,&enemysLeft[j].source,screen,&enemysLeft[j].rcSprite);
 			MoveEnemyRight(&enemysLeft[j],&player,&T);
