@@ -46,7 +46,7 @@ int main (int argc, char *argv[]) {
 	Level(1);
 	relaunch = 1;
 	n = 0;
-	
+
 	for (i=0; i<Left; i++)
 	{	
 		enemysLeft[i] = init_fighter(1);//on charge 10 ennemis (de type 1 pr l'instant)
@@ -72,55 +72,38 @@ int main (int argc, char *argv[]) {
         /* draw the surface */
         SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
 
-	/* draw the player if he is alive */
-	if(!isAlive(player)){
-        	AnimatePlayerDeath(&player,&T);
-		if(player.p == DYING){
+		/* draw the player if he is alive */
+		if(!isAlive(player)){
+    		AnimatePlayerDeath(&player,&T);
+			if(player.p == DYING){
+				SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
+			}
+		}
+		else{
 			SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
 		}
-	}
-	else{
-		SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
-	}
-	
-	/*n = 0*/
-	while (n+1 < Left)	//tant qu'on a notre file d'ennemis, ici 500
-	{
-		k = n;
-		alea_enemy = rand()%3;
-		printf("\nenemy position per default = %d \n", DEFAULT_ENEMY_POSITION_X - (DEFAULT_SPRITE_POSITION_X - 200));
-		printf("\nalea_enemy = %d \n", alea_enemy);
-		
-		/*for (j=n; j<= n+alea_enemy; j++)
+
+		//tant qu'on a notre file d'ennemis Left
+		while (n+1 < Left)	
 		{
-			if(isAlive(enemysLeft[j]))
-			{
-				printf("\n	enemysLeft[%d].rcSprite.x = %d\n",j-1, enemysLeft[j-1].rcSprite.x);
-						enemysLeft[j].rcSprite.x = enemysLeft[j-1].rcSprite.x - 10;
-						printf("\n	enemysLeft[%d].rcSprite.x = %d\n",j, enemysLeft[j].rcSprite.x);
-					} 
-		        MoveEnemyRight(&enemysLeft[j],&player,&T);
-				/printf("\n	enemysLeft[%d].rcSprite.x = %d\n",0, enemysLeft[0].rcSprite.x);
-				
-			}
-			printf("\n	Dessine enemy[%d]\n",j);
+			k = n;
+			alea_enemy = rand()%3;
+			printf("\nenemy position per default = %d \n", DEFAULT_ENEMY_POSITION_X - (DEFAULT_SPRITE_POSITION_X - 200));
+			printf("\nalea_enemy = %d \n", alea_enemy);
+			n += alea_enemy+1;
+			printf("\n	n = %d + %d = %d \n", k,alea_enemy+1,n);
 		}
-		*/
-		n += alea_enemy+1;
-		printf("\n	n = %d + %d = %d \n", k,alea_enemy+1,n);
-	}
-	for (j=0; j<10; j++)
-	{
-		SDL_BlitSurface(enemysLeft[j].sprite,&enemysLeft[j].source,screen,&enemysLeft[j].rcSprite);
-    	MoveEnemyRight(&enemysLeft[j],&player,&T);
-	}
-		
-	
-	ViewLifepoints(&LPView,player,screen);
-	
-    /* update the screen */
+		for (j=0; j<10; j++)
+		{
+			SDL_BlitSurface(enemysLeft[j].sprite,&enemysLeft[j].source,screen,&enemysLeft[j].rcSprite);
+			MoveEnemyRight(&enemysLeft[j],&player,&T);
+		}
+
+		ViewLifepoints(&LPView,player,screen);
+
+        /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
-	
+
         SDL_Delay(10);
     }
 
