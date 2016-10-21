@@ -1,0 +1,22 @@
+#ifndef ANIMATIONS_H
+#define ANIMATIONS_H
+
+#include "defines.h"
+#include "SDL.h"
+#include "graphics.h"
+#include "gamestate.h"
+#include "stdbool.h"
+#include "keyboard.h"
+
+extern void AnimatePlayerLeft(fighter *player);
+
+extern void AnimatePlayerRight(fighter *player);
+
+extern void AnimatePlayerDown(fighter *player);
+
+extern void AnimatePlayerUp(fighter *player, Time *T);
+
+extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T);
+
+
+#endif //ANIMATIONS_H
