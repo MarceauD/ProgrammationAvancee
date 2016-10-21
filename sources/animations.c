@@ -183,3 +183,12 @@ void AnimatePlayerDeath(fighter *player, Time * T){
 	}
 }
 
+void CheckAnimations(fighter *player, fighter *enemy, Time *T){
+    if(player->p == JUMP){
+            AnimatePlayerUp(player,T);
+    }
+            //animate the player kicking
+    if(player->p == KICK){
+            AnimatePlayerKick(player,enemy,T);
+    }
+}

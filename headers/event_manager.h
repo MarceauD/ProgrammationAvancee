@@ -12,8 +12,6 @@ extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time 
 
 extern void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T);
 
-extern void AnimatePlayerDeath(fighter *player, Time *T);
-
 extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);
 
 extern void MoveEnemyLeft(fighter *enemy, fighter *player, Time *T);

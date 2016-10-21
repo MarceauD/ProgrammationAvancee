@@ -8,6 +8,7 @@
 struct GameState{
     bool EndProgram;
     bool inMenu;
+    bool inPause;
 };
 
 typedef struct GameState GameState;

@@ -1,6 +1,8 @@
 #include "SDL.h"
 #include "stdbool.h"
 #include "defines.h"
+#include "gameState.h"
+#include "animations.h"
 
 #ifndef FIGHTER_H
 #define FIGHTER_H
@@ -88,4 +90,6 @@ extern void FreeBackground(background bg);
 /*load a BMP Image*/
 extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file);
 
+
+extern void BlitImages(background *bg, fighter *player, fighter *enemy, SDL_Surface *screen, Time *T);
 #endif // FIGHTER_H

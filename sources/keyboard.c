@@ -1,8 +1,7 @@
 #include"../headers/event_manager.h"
-#include "../headers/graphics.h"
-#include "../headers/graphics.h"
+
 /* handle keyboard*/
-void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
+void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
         Uint8 *keystate;
         if (SDL_PollEvent(&event)){
                 switch (event.type){
@@ -13,7 +12,7 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
         }
         keystate = SDL_GetKeyState(NULL);
         if(keystate[SDLK_ESCAPE]){
-                *gameState = write_EndProgramStatus(true,*gameState);
+                gameState->inPause = true;
         }
 
         if (keystate[SDLK_LEFT]){
@@ -54,4 +53,25 @@ void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,figh
                 *gameState = write_EndProgramStatus(true,*gameState);
         }
 
+}
+
+
+
+void KeyboardManagerPause(SDL_Event Event, GameState *gameState){
+        Uint8 *keystate;
+        if (SDL_PollEvent(&Event)){
+                switch (Event.type){
+                        case SDL_QUIT:
+                                    *gameState = write_EndProgramStatus(true,*gameState);
+                        break;
+                }
+        }
+        keystate = SDL_GetKeyState(NULL);
+        if(keystate[SDLK_RETURN]){
+            gameState->inPause = false;
+        }
+        if(keystate[SDLK_q]){
+            gameState->inPause = false;
+            gameState->EndProgram = true;
+        }
 }

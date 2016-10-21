@@ -7,6 +7,7 @@
 #include "gamestate.h"
 #include "stdbool.h"
 #include "keyboard.h"
+#include "event_manager.h"
 
 extern void AnimatePlayerLeft(fighter *player);
 
@@ -17,6 +18,10 @@ extern void AnimatePlayerDown(fighter *player);
 extern void AnimatePlayerUp(fighter *player, Time *T);
 
 extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T);
+
+extern void AnimatePlayerDeath(fighter *player, Time *T);
+
+extern void CheckAnimations(fighter *player, fighter *enemy, Time *T);
 
 
 #endif //ANIMATIONS_H

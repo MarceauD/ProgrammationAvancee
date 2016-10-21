@@ -6,8 +6,10 @@
 #include "graphics.h"
 #include "gamestate.h"
 #include "stdbool.h"
+#include "animations.h"
 
 /*Handle the keyboard events*/
-extern void KeyboardManager(SDL_Event event, GameState *gameState, fighter *player,fighter *enemy,background* bg, Time *T); 
+extern void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter *enemy,background* bg, Time *T);
+extern void KeyboardManagerPause(SDL_Event Event, GameState *G);
 
 #endif //EVENT_MANAGER_H

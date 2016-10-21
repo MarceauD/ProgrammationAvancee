@@ -6,6 +6,7 @@ GameState init_GameState(){
     GameState gameState;
     gameState.EndProgram = false;
     gameState.inMenu = false;
+    gameState.inPause = false;
     return gameState;
 }
 

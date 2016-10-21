@@ -5,11 +5,25 @@
 #include "SDL.h"
 #include "headers/defines.h"
 #include "headers/gamestate.h"
-#include "headers/graphics.h"
 #include "headers/event_manager.h"
+#include "headers/graphics.h"
+#include "headers/animations.h"
+#include "headers/moving.h"
 #include "headers/queue.h"
 #include "headers/interface.h"
 #include "headers/level.h"
+
+
+
+void CleanVariables(SDL_Surface *screen, fighter player, fighter enemy, background bg, Time T, LPV LPView, Pause P);
+void CleanVariables(SDL_Surface *screen, fighter player, fighter enemy, background bg, Time T, LPV LPView, Pause P){
+    SDL_FreeSurface(screen);
+    FreeFighter(player);
+    FreeFighter(enemy);
+    FreeBackground(bg);
+    FreeLPV(LPView);
+    FreePause(P);
+}
 
 int main (int argc, char *argv[]) {
 
@@ -23,12 +37,13 @@ int main (int argc, char *argv[]) {
     /*definition des variables*/
     SDL_Surface* screen;
 	SDL_Event event;
-	int n, i, j, k, alea_enemy, relaunch;
-    fighter player, enemy, enemysLeft[100];
+	//int n, i, j, k, alea_enemy, relaunch;
+    fighter player, enemy;//, enemysLeft[100];
     GameState gameState;
     background bg;
 	LPV LPView;
 	Time T;
+	Pause P;
 
 /* create window */
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
@@ -43,48 +58,33 @@ int main (int argc, char *argv[]) {
     bg = init_background();
     T = init_Time();
     LPView = init_LPV(player);
-	Level(1);
+    P = init_Pause();
+	/*Level(1);
 	relaunch = 1;
 	n = 0;
 
 	for (i=0; i<Left; i++)
-	{	
+	{
 		enemysLeft[i] = init_fighter(1);//on charge 10 ennemis (de type 1 pr l'instant)
 		if (i>0)
 			enemysLeft[i].rcSprite.x = enemysLeft[i-1].rcSprite.x + 100;
-	}
+	}*/
 
 /* message pump */
     while(!isOver(gameState)){
-
+    if(!gameState.inPause){
        	/*Handle the keyboard events*/
-        KeyboardManager(event,&gameState,&player,&enemy,&bg,&T);
+        KeyboardManagerGame(event,&gameState,&player,&enemy,&bg,&T);
         MoveEnemyRight(&enemy,&player,&T);
             //animate the player jumping
-        if(player.p == JUMP){
-            AnimatePlayerUp(&player,&T);
-        }
-            //animate the player kicking
-        if(player.p == KICK){
-            AnimatePlayerKick(&player,&enemy,&T);
-        }
+        CheckAnimations(&player,&enemy,&T);
 
         /* draw the surface */
-        SDL_BlitSurface(bg.surface,&bg.source,screen,&bg.rcBG);
 
-		/* draw the player if he is alive */
-		if(!isAlive(player)){
-    		AnimatePlayerDeath(&player,&T);
-			if(player.p == DYING){
-				SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
-			}
-		}
-		else{
-			SDL_BlitSurface(player.sprite,&player.source,screen,&player.rcSprite);
-		}
+        BlitImages(&bg, &player, &enemy, screen, &T);
 
 		//tant qu'on a notre file d'ennemis Left
-		while (n+1 < Left)	
+		/*while (n+1 < Left)
 		{
 			k = n;
 			alea_enemy = rand()%3;
@@ -97,10 +97,13 @@ int main (int argc, char *argv[]) {
 		{
 			SDL_BlitSurface(enemysLeft[j].sprite,&enemysLeft[j].source,screen,&enemysLeft[j].rcSprite);
 			MoveEnemyRight(&enemysLeft[j],&player,&T);
-		}
+		}*/
 
 		ViewLifepoints(&LPView,player,screen);
-
+    }
+    else{
+        PauseGame(P,&gameState,screen);
+    }
         /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
@@ -108,11 +111,7 @@ int main (int argc, char *argv[]) {
     }
 
 /* clean up */
-    SDL_FreeSurface(screen);
-    FreeFighter(player);
-    FreeFighter(enemy);
-    FreeBackground(bg);
-    FreeLPV(LPView);
+    CleanVariables(screen, player, enemy, bg, T, LPView, P);
     SDL_Quit();
 
     return 0;
