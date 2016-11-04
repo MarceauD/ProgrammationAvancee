@@ -56,18 +56,16 @@ void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
 
 void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
     enemy->r = RIGHT;
-    if(enemy->p != DYING && enemy->p != DEAD){
-    	if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
-		update_currentTime(T);
-		if(T->currentTime - enemy->previousTime > TIME_BTW_ANIMATIONS){
-		    AnimatePlayerRight(enemy);
-		    enemy->previousTime = T->currentTime;
-		}
-		enemy->rcSprite.x = enemy->rcSprite.x + 1;
-		update_previousTime(T);
-	    }
-	    else{
-	       EnemyAttackRight(enemy,player,T);
-	    }
-   }
+    if(enemy->rcSprite.x < player->rcSprite.x - (SPRITE_WIDTH / 2)){
+        update_currentTime(T);
+        if(T->currentTime - enemy->previousTime > TIME_BTW_ANIMATIONS){
+            AnimatePlayerRight(enemy);
+            enemy->previousTime = T->currentTime;
+        }
+        enemy->rcSprite.x = enemy->rcSprite.x + 1;
+	update_previousTime(T);
+    }
+    else{
+       EnemyAttackRight(enemy,player,T);
+    }
 }

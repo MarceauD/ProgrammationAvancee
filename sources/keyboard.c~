@@ -73,9 +73,8 @@ void KeyboardManagerPause(SDL_Event Event, GameState *gameState){
         if(keystate[SDLK_RETURN]){
             gameState->inPause = false;
         }
-        if(keystate[SDLK_q] || keystate[SDLK_ESCAPE]){
+        if(keystate[SDLK_q]){
             gameState->inPause = false;
             gameState->EndProgram = true;
         }
-
 }

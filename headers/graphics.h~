@@ -92,6 +92,4 @@ extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file);
 
 
 extern void BlitImages(background *bg, fighter *player, fighter *enemy, SDL_Surface *screen, Time *T);
-
-extern void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T);
 #endif // FIGHTER_H

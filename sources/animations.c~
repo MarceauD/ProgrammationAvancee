@@ -160,7 +160,7 @@ void AnimatePlayerDeath(fighter *player, Time * T){
 	}
 	if(player->r == RIGHT){
 			update_currentTime(T);
-			if(T->currentTime - player->previousTime > 250){
+			if(T->currentTime - player->previousTime > 1000){
 			 player->source.x = player->source.x + 50;
            		 player->previousTime = T->currentTime;
         		}
@@ -171,7 +171,7 @@ void AnimatePlayerDeath(fighter *player, Time * T){
 	}
 	if(player->r == LEFT){
 			update_currentTime(T);
-			if(T->currentTime - player->previousTime > 250){
+			if(T->currentTime - player->previousTime > 1000){
 			 player->source.x = player->source.x - 50;
            		 player->previousTime = T->currentTime;
         		}
