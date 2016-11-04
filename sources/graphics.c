@@ -7,7 +7,7 @@ SDL_Surface* loadImage(SDL_Surface* sprite,char* file){
 
     /*show message error if sprite cant be found*/
     if (!temp){
-        printf("Unable to load the BMP image%s\n",SDL_GetError());
+        printf("Unable to load the BMP image %s\n",SDL_GetError());
         return NULL;
     }
 
@@ -131,19 +131,20 @@ void FreeBackground(background bg){
 void BlitImages(background *bg, fighter *player, fighter *enemy, SDL_Surface *screen, Time *T){
         SDL_BlitSurface(bg->surface,&bg->source,screen,&bg->rcBG);
 
-        if(isAlive(*enemy)){
-            SDL_BlitSurface(enemy->sprite,&enemy->source,screen,&enemy->rcSprite);
-        }
-		/* draw the player if he is alive */
-		if(!isAlive(*player)){
+	BlitImagesConditions(enemy,screen,T);
+	/* draw the player if he is alive */
+	BlitImagesConditions(player, screen, T);
+}
+
+void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T){
+	if(!isAlive(*player)){
     		AnimatePlayerDeath(player,T);
-			if(player->p == DYING){
-				SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
-			}
-		}
-		else{
+		if(player->p == DYING){
 			SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
 		}
-
+	}
+	else{
+		SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
+	}
 }
 
