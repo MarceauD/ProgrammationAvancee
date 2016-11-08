@@ -4,7 +4,7 @@
 
 /*collision detect*/
 bool collision(SDL_Rect A, SDL_Rect B){
-	return (A.x < B.x - (SPRITE_WIDTH) || B.x + (SPRITE_WIDTH) > A.x);
+	return (A.x < B.x - 80 || B.x + 80 > A.x);
 }
 
 void PlayerHitEnemy(fighter *player, fighter *enemy){
@@ -18,8 +18,8 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 	    if(enemy->rcSprite.y != DEFAULT_SPRITE_POSITION_Y + 5){
 	    	enemy->rcSprite.y = DEFAULT_SPRITE_POSITION_Y + 5;
 	    }
-	    enemy->source.x = 158;
-	    enemy->source.y = 220;
+	    enemy->source.x = 232;
+	    enemy->source.y = 326;
             update_currentTime(T);
             if(time_gap(*T) > 1000){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);

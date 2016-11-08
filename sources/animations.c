@@ -90,7 +90,7 @@ void AnimatePlayerUp(fighter *player, Time *T){
 
            player->previousTime = T->currentTime;
         }
-        if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_X_LIMIT){
+        if(player->source.x < SOURCE_POS_PLAYER_JUMP_LEFT_LIMIT_X){
             player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
             player->p = STANDING;
         }
@@ -103,26 +103,26 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
 
     if(player->p != KICK){
         if(player->r == RIGHT){
-            player->source.x = 2;
-            player->source.y = 350;
+            player->source.x = SOURCE_POS_PLAYER_KICK_RIGHT_X;
+            player->source.y = SOURCE_POS_PLAYER_KICK_RIGHT_Y;
         }
 
         if(player->r == LEFT) {
-            player->rcSprite.x  = player->rcSprite.x - 10;
-            player->source.x = 200;
-            player->source.y = 415;
+            player->rcSprite.x  = player->rcSprite.x - 25;
+            player->source.x = SOURCE_POS_PLAYER_KICK_LEFT_X;
+            player->source.y = SOURCE_POS_PLAYER_KICK_LEFT_Y;
         }
 
-        player->source.w = 50;
+        player->source.w = 80;
         player->p = KICK;
     }
     if(player->r == RIGHT){
         update_currentTime(T);
         if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
-            player->source.x = player->source.x + 50;
+            player->source.x = player->source.x + SOURCE_POS_PLAYER_KICK_RIGHT_ACC;
             player->previousTime = T->currentTime;
         }
-        if(player->source.x > 4 * 50){
+        if(player->source.x > SOURCE_POS_PLAYER_KICK_RIGHT_LIMIT_X){
             player->p = STANDING;
             player->source.w = DEFAULT_SPRITE_WIDTH;
 	    PlayerHitEnemy(player,enemy);
@@ -131,12 +131,12 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
     if(player->r == LEFT){
         update_currentTime(T);
         if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
-            player->source.x = player->source.x - 50;
+            player->source.x = player->source.x + SOURCE_POS_PLAYER_KICK_LEFT_ACC;
             player->previousTime = T->currentTime;
         }
-        if(player->source.x < 50){
+        if(player->source.x < SOURCE_POS_PLAYER_KICK_LEFT_LIMIT_X){
             player->p = STANDING;
-            player->rcSprite.x = player->rcSprite.x + 10;
+            player->rcSprite.x = player->rcSprite.x + 25;
             player->source.x = 1;
             player->source.w = DEFAULT_SPRITE_WIDTH;
 	    PlayerHitEnemy(player, enemy);
@@ -147,36 +147,36 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
 void AnimatePlayerDeath(fighter *player, Time * T){
 	if(player->p != DYING && player->p != DEAD){
 		if(player->r == RIGHT){
-			player->source.x = 140;
+			player->source.x = 205;
 			player->source.y = 0;
-			player->source.w = 50;
+			player->source.w = 80;
 		}
 		if(player->r == LEFT){
-			player->source.x = 250;
-			player->source.y = 70;
-			player->source.w = 50;
+			player->source.x = 380;
+			player->source.y = 106;
+			player->source.w = 80;
 		}
 		player->p = DYING;
 	}
 	if(player->r == RIGHT){
 			update_currentTime(T);
 			if(T->currentTime - player->previousTime > 250){
-			 player->source.x = player->source.x + 50;
+			 player->source.x = player->source.x + 80;
            		 player->previousTime = T->currentTime;
         		}
-        		if(player->source.x > 240 ){
-			   player->source.x = 240;
+        		if(player->source.x > 366 ){
+			   player->source.x = 366;
 			   player->p = DEAD;
 			}
 	}
 	if(player->r == LEFT){
 			update_currentTime(T);
 			if(T->currentTime - player->previousTime > 250){
-			 player->source.x = player->source.x - 50;
+			 player->source.x = player->source.x - 80;
            		 player->previousTime = T->currentTime;
         		}
-        		if(player->source.x < 145 ){
-			   player->source.x = 145;
+        		if(player->source.x < 220 ){
+			   player->source.x = 220;
 			   player->p = DEAD;
 			}
 

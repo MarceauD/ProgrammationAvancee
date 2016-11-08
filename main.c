@@ -38,7 +38,7 @@ int main (int argc, char *argv[]) {
     SDL_Surface* screen;
 	SDL_Event event;
 	//int n, i, j, k, alea_enemy, relaunch;
-    fighter player, enemy, enemysLeft[100];
+    fighter player, enemy /*enemysLeft[100]*/;
     GameState gameState;
     background bg;
 	LPV LPView;
