@@ -98,7 +98,7 @@ void AnimatePlayerUp(fighter *player, Time *T){
 }
 
 /*handeling kicks*/
-void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
+void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T, int delay){
 /* TODO  : RANGER LES VALEURS DANS DES #defines*/
 
     if(player->p != KICK){
@@ -118,7 +118,7 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
     }
     if(player->r == RIGHT){
         update_currentTime(T);
-        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+        if(T->currentTime - player->previousTime > delay){
             player->source.x = player->source.x + SOURCE_POS_PLAYER_KICK_RIGHT_ACC;
             player->previousTime = T->currentTime;
         }
@@ -130,7 +130,7 @@ void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T){
     }
     if(player->r == LEFT){
         update_currentTime(T);
-        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+        if(T->currentTime - player->previousTime > delay){
             player->source.x = player->source.x + SOURCE_POS_PLAYER_KICK_LEFT_ACC;
             player->previousTime = T->currentTime;
         }
@@ -188,6 +188,6 @@ void CheckAnimations(fighter *player, fighter *enemy, Time *T){
             AnimatePlayerUp(player,T);
     }
     if(player->p == KICK){
-            AnimatePlayerKick(player,enemy,T);
+            AnimatePlayerKick(player,enemy,T,TIME_BTW_ANIMATIONS);
     }
 }

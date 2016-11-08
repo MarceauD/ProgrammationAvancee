@@ -11,5 +11,6 @@
 /*Handle the keyboard events*/
 extern void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter *enemy,background* bg, Time *T);
 extern void KeyboardManagerPause(SDL_Event Event, GameState *G);
+extern void KeyboardManagerMenu(SDL_Event event, GameState *G);
 
 #endif //EVENT_MANAGER_H

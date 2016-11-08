@@ -36,9 +36,10 @@ int main (int argc, char *argv[]) {
 
     /*definition des variables*/
     SDL_Surface* screen;
+
 	SDL_Event event;
 	//int n, i, j, k, alea_enemy, relaunch;
-    fighter player, enemy /*enemysLeft[100]*/;
+    fighter player, demo, enemy /*enemysLeft[100]*/;
     GameState gameState;
     background bg;
 	LPV LPView;
@@ -54,12 +55,13 @@ int main (int argc, char *argv[]) {
     /*initialisation des variables */
     gameState = init_GameState();
     player = init_fighter(PLAYER);
+    demo = init_fighter(PLAYER);
     enemy = init_fighter(GRABBING_ENEMY);
     bg = init_background();
     T = init_Time();
     LPView = init_LPV(player);
     P = init_Pause();
-	/*Level(1);
+    /*Level(1);
 	relaunch = 1;
 	n = 0;
 
@@ -69,6 +71,42 @@ int main (int argc, char *argv[]) {
 	}*/
 
 /* message pump */
+
+    /*TODO : RANGER TOUT CE MERDIER DANS DES FONCTIONS*/
+    SDL_Surface *menu;
+    SDL_Surface* Rect;
+    SDL_Rect rcRect,source;
+    menu = loadImage(menu,"sprites/menu.bmp");
+    Rect = loadImage(Rect,"sprites/entertocontinue.bmp");
+    rcRect.x = 0;
+    rcRect.y = 280;
+    source.x = 0;
+    source.y = 0;
+    demo.rcSprite.x = SCREEN_WIDTH / 2 - SPRITE_WIDTH;
+    demo.rcSprite.y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2 ;
+    while(gameState.inMenu){
+        KeyboardManagerMenu(event,&gameState);
+        SDL_BlitSurface(menu,NULL,screen,NULL);
+        SDL_BlitSurface(demo.sprite,&demo.source,screen,&demo.rcSprite);
+        update_currentTime(&T);
+        if(time_gap(T) > 350){
+            if(source.y == 0){
+                source.y = 50;
+            }
+            else{
+                source.y = 0;
+            }
+            update_previousTime(&T);
+        }
+        SDL_BlitSurface(Rect,&source,screen,&rcRect);
+        AnimatePlayerKick(&demo,&enemy,&T,250);
+        SDL_UpdateRect(screen,0,0,0,0);
+    }
+    SDL_FreeSurface(menu);
+    SDL_FreeSurface(Rect);
+    FreeFighter(demo);
+
+
     while(!isOver(gameState)){
     if(!gameState.inPause){
        	/*Handle the keyboard events*/

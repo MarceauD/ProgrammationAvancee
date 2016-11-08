@@ -17,7 +17,7 @@ extern void AnimatePlayerDown(fighter *player);
 
 extern void AnimatePlayerUp(fighter *player, Time *T);
 
-extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T);
+extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T, int delay);
 
 extern void AnimatePlayerDeath(fighter *player, Time *T);
 
