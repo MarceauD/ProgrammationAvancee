@@ -4,7 +4,7 @@
 
 /*collision detect*/
 bool collision(SDL_Rect A, SDL_Rect B){
-	return (A.x < B.x - 80 || B.x + 80 > A.x);
+	return (A.x < B.x - A.w || B.x + A.w > A.x);
 }
 
 void PlayerHitEnemy(fighter *player, fighter *enemy){

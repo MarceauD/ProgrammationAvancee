@@ -35,8 +35,8 @@ int main (int argc, char *argv[]) {
     SDL_WM_SetCaption(GAME_TITLE,GAME_TITLE);
 
     /*definition des variables*/
-    SDL_Surface* screen;
-
+    SDL_Surface* screen,*menu,*Rect;
+    SDL_Rect rcRect, source;
 	SDL_Event event;
 	//int n, i, j, k, alea_enemy, relaunch;
     fighter player, demo, enemy /*enemysLeft[100]*/;
@@ -73,9 +73,8 @@ int main (int argc, char *argv[]) {
 /* message pump */
 
     /*TODO : RANGER TOUT CE MERDIER DANS DES FONCTIONS*/
-    SDL_Surface *menu;
-    SDL_Surface* Rect;
-    SDL_Rect rcRect,source;
+
+
     menu = loadImage(menu,"sprites/menu.bmp");
     Rect = loadImage(Rect,"sprites/entertocontinue.bmp");
     rcRect.x = 0;

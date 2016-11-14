@@ -108,7 +108,7 @@ void FreeFighter(fighter F){
 background init_background(){
     background bg;
 
-    bg.surface = loadImage(bg.surface,"sprites/background.bmp");
+    bg.surface = loadImage(bg.surface,"sprites/floors/floor1.bmp");
 
     bg.rcBG.x = 0;
     bg.rcBG.y = 0;
