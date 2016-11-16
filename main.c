@@ -15,11 +15,10 @@
 
 
 
-void CleanVariables(SDL_Surface *screen, fighter player, fighter enemy, background bg, Time T, LPV LPView, Pause P);
-void CleanVariables(SDL_Surface *screen, fighter player, fighter enemy, background bg, Time T, LPV LPView, Pause P){
+void CleanVariables(SDL_Surface *screen, fighter player, background bg, Time T, LPV LPView, Pause P);
+void CleanVariables(SDL_Surface *screen, fighter player, background bg, Time T, LPV LPView, Pause P){
     SDL_FreeSurface(screen);
     FreeFighter(player);
-    FreeFighter(enemy);
     FreeBackground(bg);
     FreeLPV(LPView);
     FreePause(P);
@@ -27,9 +26,9 @@ void CleanVariables(SDL_Surface *screen, fighter player, fighter enemy, backgrou
 
 int main (int argc, char *argv[]) {
 
-    freopen("CON", "w", stdout);
+    /*freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);
+    freopen("CON", "w", stderr);*/
 
 /* set the title bar */
     SDL_WM_SetCaption(GAME_TITLE,GAME_TITLE);
@@ -46,9 +45,11 @@ int main (int argc, char *argv[]) {
 	Time T;
 	Pause P;
 
-    bool launch_enemy2 = false;
-	fighter enemy2;
-	fighter* temp_enemy;
+    //bool launch_enemy2 = false;
+    fighter enemyLeft[10];
+    bool launchEnemy[10];
+    //fighter enemy2;
+    fighter* temp_enemy;
 
 /* create window */
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
@@ -66,16 +67,17 @@ int main (int argc, char *argv[]) {
     LPView = init_LPV(player);
     P = init_Pause();
 
-    enemy2 = init_fighter(GRABBING_ENEMY);
+    int k = 0;
+    //enemy2 = init_fighter(GRABBING_ENEMY);
 
-    /*Level(1);
-	relaunch = 1;
-	n = 0;
 
-	for (i=0; i<Left; i++)
-	{
-		enemysLeft[i] = init_fighter(GRABBING_ENEMY);//on charge 10 ennemis (de type 1 pr l'instant)
-	}*/
+    for (int i=0; i<10; i++){
+	enemyLeft[i] = init_fighter(GRABBING_ENEMY);
+    }
+
+    for(int i=0; i<10;i++){
+	launchEnemy[i] = false;
+    }
 
 /* message pump */
 
@@ -117,36 +119,35 @@ int main (int argc, char *argv[]) {
 
     while(!isOver(gameState)){
     if(!gameState.inPause){
-        if(isAlive(enemy)){
-            temp_enemy = &enemy;
-        }
-        else{
-            temp_enemy = &enemy2;
-        }
+        int i = 0;
+	while(!isAlive(enemyLeft[i])){
+		i = i + 1;
+	}
+	printf("%u\n",i);
+	if(i >= 10){
+		temp_enemy = &enemyLeft[i-2];
+	} else {
+		temp_enemy = &enemyLeft[i];
+	}
 
-        if(temp_enemy == &enemy){
-            printf("TAPE LE PREMIER\n");
-        }
-        else{
-            if(temp_enemy == &enemy2){
-                printf("TAPE LE DEUXIEME\n");
-            }
-        }
        	/*Handle the keyboard events*/
         KeyboardManagerGame(event,&gameState,&player,temp_enemy,&bg,&T);
-        MoveEnemyRight(&enemy,&player,&T);
+        MoveEnemyRight(&enemyLeft[0],&player,&T);
         update_currentTime(&T);
-        if(T.currentTime > 1000){
-            launch_enemy2 = true;
+        if(T.currentTime > (k + 1) * 2000){
+            launchEnemy[k] = true;
+	    k = k + 1;
         }
-        if(launch_enemy2){
-            if(isAlive(enemy)){
-                MoveEnemyRight(&enemy2,&enemy,&T);
-            }
-            else{
-                MoveEnemyRight(&enemy2,&player,&T);
-            }
-        }
+	for(int j=1; j < 10 ; j ++){
+		if(launchEnemy[j]){
+		    if(isAlive(enemyLeft[j-1])){
+		        MoveEnemyRight(&enemyLeft[j],&enemyLeft[j-1],&T);
+		    }
+		    else{
+		        MoveEnemyRight(&enemyLeft[j],&player,&T);
+		    }
+		}
+	}
 
 
             //animate the player jumping
@@ -154,18 +155,15 @@ int main (int argc, char *argv[]) {
 
         /* draw the surface */
 
-        BlitImages(&bg, &player, &enemy, screen, &T);
-        if(launch_enemy2){
-            BlitImagesConditions(&enemy2,screen,&T);
-        }
-		//tant qu'on a notre file d'ennemis Left
-		/*for (j=0; j<1; j++)
-		{
-			SDL_BlitSurface(enemysLeft[j].sprite,&enemysLeft[j].source,screen,&enemysLeft[j].rcSprite);
-			MoveEnemyRight(&enemysLeft[j],&player,&T);
-		}*/
+        BlitImages(&bg, &player, screen, &T);
+	for(int i = 0; i < 10; i ++ ){
+		if(launchEnemy[i]){
+		    BlitImagesConditions(&enemyLeft[i],screen,&T);
+		}
+	}
+		
 
-		ViewLifepoints(&LPView,player,screen);
+	ViewLifepoints(&LPView,player,screen);
     }
     else{
         PauseGame(P,&gameState,screen);
@@ -177,9 +175,10 @@ int main (int argc, char *argv[]) {
     }
 
 /* clean up */
-    CleanVariables(screen, player, enemy, bg, T, LPView, P);
-    FreeFighter(enemy2);
-    free(temp_enemy);
+    CleanVariables(screen, player, bg, T, LPView, P);
+    for(int i = 0; i < 10; i ++){
+	FreeFighter(enemyLeft[i]);
+    }
     SDL_Quit();
     return 0;
 }

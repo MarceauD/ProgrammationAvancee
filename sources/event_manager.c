@@ -21,9 +21,9 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 	    enemy->source.x = 232;
 	    enemy->source.y = 326;
             update_currentTime(T);
-            if(time_gap(*T) > 1000){
+            if(T->currentTime - enemy->previousTime > 1000){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
-                update_previousTime(T);
+                enemy->previousTime = T->currentTime;
             }
         }
 }

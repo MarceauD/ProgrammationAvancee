@@ -54,10 +54,12 @@ fighter init_fighter(fighter_kind FK){
     if(FK == PLAYER){
         F = write_lifepoints(DEFAULT_PLAYER_LIFEPOINTS,F);
         F = write_damage(DEFAULT_PLAYER_HITDAMAGE,F);
+	F.f = PLAYER;
     }
     if(FK == GRABBING_ENEMY){
         F = write_lifepoints(DEFAULT_GRABBING_ENEMY_LIFEPOINTS,F);
         F = write_damage(DEFAULT_GRABBING_ENEMY_HITDAMAGE,F);
+	F.f = GRABBING_ENEMY;
     }
 
 
@@ -128,11 +130,11 @@ void FreeBackground(background bg){
 
 
 
-void BlitImages(background *bg, fighter *player, fighter *enemy, SDL_Surface *screen, Time *T){
+void BlitImages(background *bg, fighter *player, SDL_Surface *screen, Time *T){
         SDL_BlitSurface(bg->surface,&bg->source,screen,&bg->rcBG);
 
-	BlitImagesConditions(enemy,screen,T);
-	/* draw the player if he is alive */
+	//BlitImagesConditions(enemy,screen,T);
+	
 	BlitImagesConditions(player, screen, T);
 }
 

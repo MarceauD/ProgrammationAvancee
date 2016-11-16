@@ -40,6 +40,8 @@ struct fighter{
     int damage;
 
     enum rotation r;
+    
+    enum fighter_kind f;
 
     enum position p;
     SDL_Rect hitbox;
@@ -91,7 +93,7 @@ extern void FreeBackground(background bg);
 extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file);
 
 
-extern void BlitImages(background *bg, fighter *player, fighter *enemy, SDL_Surface *screen, Time *T);
+extern void BlitImages(background *bg, fighter *player, SDL_Surface *screen, Time *T);
 
 extern void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T);
 #endif // FIGHTER_H
