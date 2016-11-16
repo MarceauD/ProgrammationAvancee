@@ -35,7 +35,9 @@ void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
             AnimatePlayerRight(player);
             player->previousTime = T->currentTime;
         }
+        printf("%s\n",collision(player->rcSprite,enemy->rcSprite)? "TRUE" : "FALSE");
         if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
+
             if (player->rcSprite.x > SCREEN_WIDTH/2 - SPRITE_WIDTH) {
                 bg->source.x = bg->source.x + 1;
 
