@@ -18,4 +18,6 @@ extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);
 
 extern void MoveEnemyLeft(fighter *enemy, fighter *player, Time *T);
 
+extern void AnimatePlayer(fighter * player, Time *T);
+
 #endif //MOVING_H

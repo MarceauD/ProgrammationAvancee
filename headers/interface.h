@@ -33,4 +33,7 @@ extern void FreeLPV(LPV Lifepoints);
 extern Pause init_Pause();
 extern void PauseGame(Pause P, GameState *G, SDL_Surface *screen);
 extern void FreePause(Pause P);
+
+extern void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Rect *source,Time *T, SDL_Event event, GameState *gameState,SDL_Surface * screen, fighter * demo);
+extern void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo);
 #endif //INTERFACE_H

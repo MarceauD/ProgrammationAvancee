@@ -19,31 +19,31 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
         }
 
         if (keystate[SDLK_LEFT]){
-            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING)){
+            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
                 MovePlayerLeft(player,enemy, bg, T);
             }
         }
 
         if (keystate[SDLK_RIGHT]){
-            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING)){
+            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
                 MovePlayerRight(player,enemy, bg, T);
             }
         }
 
         if(keystate[SDLK_DOWN]){
-            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING)){
+            if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
                 AnimatePlayerDown(player);
             }
         }
 
         if(keystate[SDLK_UP]){
-            if(player->p != KICK && player->p != DEAD && player->p != DYING){
+            if(player->p != KICK && player->p != DEAD && player->p != DYING && player->p != ANIMATED){
                 AnimatePlayerUp(player, T);
             }
         }
 
         if(keystate[SDLK_SPACE]){
-            if(player->p != JUMP && player->p != DEAD && player->p != DYING){
+            if(player->p != JUMP && player->p != DEAD && player->p != DYING && player->p != ANIMATED){
                 AnimatePlayerKick(player, enemy,T,TIME_BTW_ANIMATIONS);
             }
         }

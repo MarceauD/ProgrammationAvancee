@@ -61,3 +61,36 @@ void PauseGame(Pause P, GameState *G, SDL_Surface *screen){
 void FreePause(Pause P){
     SDL_FreeSurface(P.sprite);
 }
+
+
+
+void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Rect *source, Time * T, SDL_Event event,GameState *gameState, SDL_Surface * screen, fighter *demo){
+    KeyboardManagerMenu(event,gameState);
+    SDL_BlitSurface(menu,NULL,screen,NULL);
+    SDL_BlitSurface(demo->sprite,&demo->source,screen,&demo->rcSprite);
+    update_currentTime(T);
+    if(time_gap(*T) > 350){
+        if(source->y == 0){
+            source->y = 50;
+        }
+        else{
+            source->y = 0;
+        }
+        update_previousTime(T);
+    }
+    SDL_BlitSurface(Rect,source,screen,&rcRect);
+    AnimatePlayerKick(demo,demo,T,250);
+    SDL_UpdateRect(screen,0,0,0,0);
+}
+
+
+void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo){
+    rcRect->x = 0;
+    rcRect->y = 280;
+    source->x = 0;
+    source->y = 0;
+    source->w = 800;
+    source->h = 50;
+    demo->rcSprite.x = SCREEN_WIDTH / 2 - SPRITE_WIDTH;
+    demo->rcSprite.y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2 ;
+}

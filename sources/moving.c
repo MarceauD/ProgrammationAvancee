@@ -5,6 +5,9 @@
 
 void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
         /*activate animation to move left*/
+        if(player->rcSprite.x <= 170){
+                player->p = ANIMATED;
+        }
         update_currentTime(T);
         if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
             AnimatePlayerLeft(player);
@@ -29,15 +32,29 @@ void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
         }
 }
 
+void AnimatePlayer(fighter * player, Time *T){
+    if(player->p == ANIMATED){
+        player->rcSprite.x -= 1;
+        player->rcSprite.y -= 1.10;
+        update_currentTime(T);
+        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+            AnimatePlayerLeft(player);
+            player->previousTime = T->currentTime;
+        }
+    if(player->rcSprite.y <= 45){
+        player->p = STANDING;
+    }
+    }
+}
+
 void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
         update_currentTime(T);
         if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
             AnimatePlayerRight(player);
             player->previousTime = T->currentTime;
         }
-	printf("collision : %s, en vie  : %s\n",collision(player->rcSprite, enemy->rcSprite) ? "TRUE" : "FALSE", isAlive(*enemy) ? "TRUE" : "FALSE");
         if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
-	    
+
             if (player->rcSprite.x > SCREEN_WIDTH/2 - SPRITE_WIDTH) {
                 bg->source.x = bg->source.x + 1;
 

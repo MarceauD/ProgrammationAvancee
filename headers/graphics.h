@@ -28,6 +28,7 @@ enum position{
     KICK,
     DYING,
     DEAD,
+    ANIMATED,
 };
 
 struct fighter{
@@ -40,7 +41,7 @@ struct fighter{
     int damage;
 
     enum rotation r;
-    
+
     enum fighter_kind f;
 
     enum position p;
