@@ -2,10 +2,11 @@
 #include "../headers/event_manager.h"
 #include "../headers/graphics.h"
 #include "../headers/animations.h"
+#include "../headers/level.h"
 
-void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
+void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T, GameState *gs){
         /*activate animation to move left*/
-        if(player->rcSprite.x <= 170){
+        if(player->rcSprite.x <= 170 && gs->lvl == Level1){
                 player->p = ANIMATED;
         }
         update_currentTime(T);
@@ -15,15 +16,15 @@ void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
         }
         if(!collision(player->rcSprite,enemy->rcSprite) || !isAlive(*enemy)){
             if (player->rcSprite.x < SCREEN_WIDTH/2 - SPRITE_WIDTH) {
-                bg->source.x = bg->source.x - 1;
+                bg->source.x = bg->source.x - PLAYER_SPEED;
                 MoveEnemyRight(enemy,player,T);
             }
             else{
-            player->rcSprite.x = player->rcSprite.x - 1;
+            player->rcSprite.x = player->rcSprite.x - PLAYER_SPEED;
             }
             if (bg->source.x < SOURCE_POS_BG_LEFT_LIMIT_X){
                 bg->source.x = SOURCE_POS_BG_LEFT_LIMIT_X;
-                player->rcSprite.x = player->rcSprite.x - 1;
+                player->rcSprite.x = player->rcSprite.x - PLAYER_SPEED;
                 if(player->rcSprite.x < RECT_POS_PLAYER_LEFT_LIMIT_X){
                     player->rcSprite.x = RECT_POS_PLAYER_LEFT_LIMIT_X;
                 }
@@ -32,7 +33,7 @@ void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T){
         }
 }
 
-void AnimatePlayer(fighter * player, Time *T){
+void AnimatePlayer(fighter * player, Time *T,background * bg, GameState *gs){
     if(player->p == ANIMATED){
         player->rcSprite.x -= 1;
         player->rcSprite.y -= 1.10;
@@ -43,6 +44,7 @@ void AnimatePlayer(fighter * player, Time *T){
         }
     if(player->rcSprite.y <= 45){
         player->p = STANDING;
+        ChangeLevel(player,bg,gs);
     }
     }
 }
@@ -56,15 +58,15 @@ void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T){
         if(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)){
 
             if (player->rcSprite.x > SCREEN_WIDTH/2 - SPRITE_WIDTH) {
-                bg->source.x = bg->source.x + 1;
+                bg->source.x = bg->source.x + PLAYER_SPEED;
 
             }
             else{
-                player->rcSprite.x = player->rcSprite.x + 1;
+                player->rcSprite.x = player->rcSprite.x + PLAYER_SPEED;
             }
             if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
                 bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
-                player->rcSprite.x = player->rcSprite.x + 1;
+                player->rcSprite.x = player->rcSprite.x + PLAYER_SPEED;
                 if(player->rcSprite.x > RECT_POS_PLAYER_RIGHT_LIMIT_X){
                     player->rcSprite.x = RECT_POS_PLAYER_RIGHT_LIMIT_X;
                 }

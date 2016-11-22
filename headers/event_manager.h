@@ -8,7 +8,7 @@
 #include "stdbool.h"
 #include "keyboard.h"
 
-extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T);
+extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T,GameState *gs);
 
 extern void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T);
 
@@ -23,3 +23,4 @@ extern void PlayerHitEnemy(fighter *player, fighter *enemy);
 extern void EnemyAttackRight(fighter *enemy, fighter *player, Time *T);
 
 #endif //EVENT_MANAGER_H
+

@@ -34,7 +34,9 @@ void ViewTime(GameState GS){
 }*/
 
 void FreeLPV(LPV Lifepoints){
-	SDL_FreeSurface(Lifepoints.sprite);
+    if(Lifepoints.sprite != NULL){
+        SDL_FreeSurface(Lifepoints.sprite);
+    }
 }
 
 
@@ -59,7 +61,9 @@ void PauseGame(Pause P, GameState *G, SDL_Surface *screen){
 
 
 void FreePause(Pause P){
-    SDL_FreeSurface(P.sprite);
+    if(P.sprite != NULL){
+        SDL_FreeSurface(P.sprite);
+    }
 }
 
 

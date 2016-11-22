@@ -102,7 +102,9 @@ fighter write_lifepoints(int lifepoints, fighter F){
 
     /*clean up fighter*/
 void FreeFighter(fighter F){
-    SDL_FreeSurface(F.sprite);
+    if(F.sprite != NULL){
+        SDL_FreeSurface(F.sprite);
+    }
 }
 
 
@@ -125,7 +127,9 @@ background init_background(){
 }
 
 void FreeBackground(background bg){
-    SDL_FreeSurface(bg.surface);
+    if(bg.surface != NULL){
+        SDL_FreeSurface(bg.surface);
+    }
 }
 
 
@@ -133,20 +137,20 @@ void FreeBackground(background bg){
 void BlitImages(background *bg, fighter *player, SDL_Surface *screen, Time *T){
         SDL_BlitSurface(bg->surface,&bg->source,screen,&bg->rcBG);
 
-	//BlitImagesConditions(enemy,screen,T);
-	
-	BlitImagesConditions(player, screen, T);
+        BlitImagesConditions(player, screen, T);
 }
 
 void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T){
 	if(!isAlive(*player)){
+            printf(" is dead\n");
     		AnimatePlayerDeath(player,T);
 		if(player->p == DYING){
 			SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
 		}
 	}
 	else{
-		SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
+	    printf(" is alive\n");
+        SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
 	}
 }
 

@@ -7,6 +7,7 @@ GameState init_GameState(){
     gameState.EndProgram = false;
     gameState.inMenu = true;
     gameState.inPause = false;
+    gameState.lvl = Level1;
     return gameState;
 }
 

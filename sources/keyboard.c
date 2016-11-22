@@ -1,5 +1,6 @@
 #include"../headers/event_manager.h"
 
+
 /* handle keyboard*/
 void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
         Uint8 *keystate;
@@ -20,7 +21,7 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
 
         if (keystate[SDLK_LEFT]){
             if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
-                MovePlayerLeft(player,enemy, bg, T);
+                MovePlayerLeft(player,enemy, bg, T,gameState);
             }
         }
 

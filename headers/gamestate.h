@@ -5,10 +5,16 @@
 #include "stdbool.h"
 #include "SDL.h"
 
+enum Level{
+    Level1,
+    Level2,
+};
+
 struct GameState{
     bool EndProgram;
     bool inMenu;
     bool inPause;
+    enum Level lvl;
 };
 
 typedef struct GameState GameState;

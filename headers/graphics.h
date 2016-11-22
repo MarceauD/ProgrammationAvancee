@@ -4,8 +4,8 @@
 #include "gamestate.h"
 #include "animations.h"
 
-#ifndef FIGHTER_H
-#define FIGHTER_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 enum rotation{
     LEFT,
@@ -93,8 +93,10 @@ extern void FreeBackground(background bg);
 /*load a BMP Image*/
 extern SDL_Surface* loadImage(SDL_Surface* sprite,char* file);
 
-
+/*blit the images in the game*/
 extern void BlitImages(background *bg, fighter *player, SDL_Surface *screen, Time *T);
 
+/*blit the images on conditions (if the player is alive)*/
 extern void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T);
-#endif // FIGHTER_H
+
+#endif // GRAPHICS_H

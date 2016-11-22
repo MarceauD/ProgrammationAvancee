@@ -2,7 +2,7 @@
 #include "../headers/graphics.h"
 
 
-/*collision detect*/
+
 bool collision(SDL_Rect A, SDL_Rect B){
 	return (A.x < B.x - A.w || B.x + A.w > A.x);
 }
@@ -27,3 +27,4 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
             }
         }
 }
+

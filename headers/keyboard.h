@@ -8,9 +8,13 @@
 #include "stdbool.h"
 #include "animations.h"
 
-/*Handle the keyboard events*/
+/*Handle the keyboard events during the game*/
 extern void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter *enemy,background* bg, Time *T);
+
+/*Handle the keyboard events during the pause*/
 extern void KeyboardManagerPause(SDL_Event Event, GameState *G);
+
+/*Handle the keyboard events during the menu*/
 extern void KeyboardManagerMenu(SDL_Event event, GameState *G);
 
-#endif //EVENT_MANAGER_H
+#endif //KEYBOARD_H
