@@ -142,14 +142,12 @@ void BlitImages(background *bg, fighter *player, SDL_Surface *screen, Time *T){
 
 void BlitImagesConditions(fighter *player, SDL_Surface *screen, Time *T){
 	if(!isAlive(*player)){
-            printf(" is dead\n");
     		AnimatePlayerDeath(player,T);
 		if(player->p == DYING){
 			SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
 		}
 	}
 	else{
-	    printf(" is alive\n");
         SDL_BlitSurface(player->sprite,&player->source,screen,&player->rcSprite);
 	}
 }

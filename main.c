@@ -15,8 +15,8 @@
 
 
 
-void CleanVariables(SDL_Surface *screen, fighter player, background bg, Time T, LPV LPView, Pause P, SDL_Surface * icon);
-void CleanVariables(SDL_Surface *screen, fighter player, background bg, Time T, LPV LPView, Pause P, SDL_Surface * icon){
+void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPView, Pause P, SDL_Surface * icon);
+void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPView, Pause P, SDL_Surface * icon){
     if(screen != NULL){
         SDL_FreeSurface(screen);
     }
@@ -35,9 +35,9 @@ int main (int argc, char *argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    freopen("CON", "w", stdout);
+    /*freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);
+    freopen("CON", "w", stderr);*/
 
     /* set the title bar */
     SDL_WM_SetCaption(GAME_TITLE,NULL);
@@ -52,17 +52,18 @@ int main (int argc, char *argv[]) {
     /*DEFINE VARIABLES*/
     SDL_Surface* screen,*menu,*Rect;
     SDL_Rect rcRect, source;
-	SDL_Event event;
+    SDL_Event event;
     fighter player, demo;
     GameState gameState;
     background bg;
-	LPV LPView;
-	Time T,T1;
-	Pause P;
+    LPV LPView;
+    Time T,T1;
+    Pause P;
 
-    fighter enemyLeft[ENEMYS_LVL1];
-    bool launchEnemy[ENEMYS_LVL1];
+    fighter enemyLeft[ENEMIES_LVL1];
+    bool launchEnemy[ENEMIES_LVL1];
     bool allDead = false;
+    int TimeBetweenEnemies[ENEMIES_LVL1];
 
     fighter* temp_enemy;
 
@@ -80,17 +81,24 @@ int main (int argc, char *argv[]) {
     P = init_Pause();
 
     int k = 0;
-
     int i;
-    for (i=0; i<ENEMYS_LVL1; i++){
+    for (i=0; i<ENEMIES_LVL1; i++){
         enemyLeft[i] = init_fighter(GRABBING_ENEMY);
     }
 
     launchEnemy[0] = true;
-    for(i=1; i<ENEMYS_LVL1;i++){
+    for(i=1; i<ENEMIES_LVL1;i++){
         launchEnemy[i] = false;
     }
 
+   for(i=0;i<ENEMIES_LVL1;i++){
+	if(i == 3 || i == 5 || i == 8){
+	TimeBetweenEnemies[i] = 2500;
+	} else {	
+   	TimeBetweenEnemies[i] = 250;
+   	}
+    }
+  
     /*MENU*/
     menu = loadImage(NULL,"sprites/menu.bmp");
     Rect = loadImage(NULL,"sprites/entertocontinue.bmp");
@@ -112,18 +120,18 @@ int main (int argc, char *argv[]) {
        	/*Handle the keyboard events*/
         KeyboardManagerGame(event,&gameState,&player,temp_enemy,&bg,&T);
         if(!allDead){
-            MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k);
+            MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
         }
         CheckAnimations(&player,temp_enemy,&T);
         if(player.p == ANIMATED){
             AnimatePlayer(&player,&T,&bg,&gameState);
         }
-        printf("ENEMY LP : %d\n",temp_enemy->lifepoints);
+        
         BlitImages(&bg, &player, screen, &T);
         if(!allDead){
             BlitEnemies(enemyLeft,screen,launchEnemy,&T);
         }
-        if(!isAlive(enemyLeft[ENEMYS_LVL1 - 1])){
+        if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
             allDead = true;
         }
 
@@ -138,9 +146,10 @@ int main (int argc, char *argv[]) {
         SDL_Delay(10);
     }
 
-    CleanVariables(screen, player, bg, T, LPView,P,icon);
-
-
+    CleanVariables(screen, player, bg, LPView,P,icon);
+    for(i=0; i<ENEMIES_LVL1; i ++){
+	FreeFighter(enemyLeft[i]);
+	}
     SDL_Quit();
     return 0;
 }

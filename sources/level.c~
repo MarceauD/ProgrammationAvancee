@@ -26,12 +26,15 @@ void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time 
     }
     int j;
     for(j=1; j < ENEMIES_LVL1; j ++){
+	printf("ICI");
         if(launchEnemy[j]){
 	    bool Alive = isAlive(enemyLeft[j-1]);
             if(Alive){
+		printf(" noir devant moi j : %d\n",j);
                 MoveEnemyRight(&enemyLeft[j],&enemyLeft[j-1],T);
             }
             else{
+		printf(" blanc devant moi\n");
                 MoveEnemyRight(&enemyLeft[j],player,T);
             }
         }

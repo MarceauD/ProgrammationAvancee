@@ -11,7 +11,7 @@
 extern fighter * whichFighter(fighter enemyLeft[ENEMIES_LVL1]);
 
 /*move all the enemies according to their positions and actions*/
-extern void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time *T1,bool launchEnemy[ENEMIES_LVL1], int *k,int TimeBetweenEnemies[ENEMIES_LVL1]);
+extern void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time *T1,bool launchEnemy[ENEMIES_LVL1], int *k);
 
 /*blit all the enemies if they are alive and already launched*/
 extern void BlitEnemies(fighter enemyLeft[ENEMIES_LVL1], SDL_Surface * screen, bool launchEnemy[ENEMIES_LVL1],Time *T);
