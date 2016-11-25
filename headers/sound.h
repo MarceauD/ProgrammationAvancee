@@ -19,12 +19,13 @@ struct Record{
     Uint32 recordPos;
 };
 
-typedef struct Record Record
+typedef struct Record Record;
+
 struct RecordArray{
     Record* records;
     int currentRecordID;
 };
-typedef struct RecordArray RecordArray
+typedef struct RecordArray RecordArray;
 
 
 /*Return the default desired audio configuration*/

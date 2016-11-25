@@ -22,13 +22,13 @@ extern void AnimatePlayerDown(fighter *player);
 extern void AnimatePlayerUp(fighter *player, Time *T);
 
 /*animate the player kicking left and right*/
-extern void AnimatePlayerKick(fighter *player,fighter *enemy, Time *T, int delay);
+extern void AnimatePlayerKick(fighter *player,fighter *enemy,fighter *enemy_r, Time *T, int delay);
 
 /*animate the player dying left and right*/
 extern void AnimatePlayerDeath(fighter *player, Time *T);
 
 /*check if the player is in the middle of an animation, if so, it ends it before anything else*/
-extern void CheckAnimations(fighter *player, fighter *enemy, Time *T);
+extern void CheckAnimations(fighter *player, fighter *enemy,fighter *enemy_r, Time *T);
 
 
 #endif //ANIMATIONS_H

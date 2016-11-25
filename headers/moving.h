@@ -10,10 +10,10 @@
 #include "animations.h"
 
 /*move the player or the background to the left*/
-extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T, GameState *gs);
+extern void MovePlayerLeft(fighter *player,fighter *enemy,fighter *enemy_r, background *bg, Time *T, GameState *gs);
 
 /*move the player or the background to the right*/
-extern void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T);
+extern void MovePlayerRight(fighter *player, fighter *enemy,fighter *enemy_r, background *bg, Time *T);
 
 /*move the enemy right*/
 extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);
@@ -23,5 +23,7 @@ extern void MoveEnemyLeft(fighter *enemy, fighter *player, Time *T);
 
 /*in case of a animation caused by the position of the player ( end of levels )*/
 extern void AnimatePlayer(fighter * player, Time *T, background * bg, GameState *gs);
+
+
 
 #endif //MOVING_H

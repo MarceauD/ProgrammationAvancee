@@ -7,14 +7,7 @@
 #include "gamestate.h"
 #include "stdbool.h"
 #include "keyboard.h"
-
-extern void MovePlayerLeft(fighter *player,fighter *enemy, background *bg, Time *T,GameState *gs);
-
-extern void MovePlayerRight(fighter *player, fighter *enemy, background *bg, Time *T);
-
-extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);
-
-extern void MoveEnemyLeft(fighter *enemy, fighter *player, Time *T);
+#include "moving.h"
 
 extern bool collision(SDL_Rect A, SDL_Rect B);
 
@@ -22,5 +15,6 @@ extern void PlayerHitEnemy(fighter *player, fighter *enemy);
 
 extern void EnemyAttackRight(fighter *enemy, fighter *player, Time *T);
 
+extern void EnemyAttackLeft(fighter *enemy,fighter * player, Time *T);
 #endif //EVENT_MANAGER_H
 

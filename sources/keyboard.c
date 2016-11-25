@@ -2,7 +2,7 @@
 
 
 /* handle keyboard*/
-void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy,background* bg, Time *T){
+void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,fighter * enemy, fighter * enemy_r,background* bg, Time *T){
         Uint8 *keystate;
         if (SDL_PollEvent(&event)){
                 switch (event.type){
@@ -21,13 +21,13 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
 
         if (keystate[SDLK_LEFT]){
             if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
-                MovePlayerLeft(player,enemy, bg, T,gameState);
+                MovePlayerLeft(player,enemy,enemy_r, bg, T,gameState);
             }
         }
 
         if (keystate[SDLK_RIGHT]){
             if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
-                MovePlayerRight(player,enemy, bg, T);
+                MovePlayerRight(player,enemy,enemy_r, bg, T);
             }
         }
 
@@ -45,13 +45,11 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
 
         if(keystate[SDLK_SPACE]){
             if(player->p != JUMP && player->p != DEAD && player->p != DYING && player->p != ANIMATED){
-                AnimatePlayerKick(player, enemy,T,TIME_BTW_ANIMATIONS);
+                AnimatePlayerKick(player, enemy,enemy_r,T,TIME_BTW_ANIMATIONS);
             }
         }
 	if(keystate[SDLK_o]){
-		if(!isAlive(*enemy)){
-			*enemy = init_fighter(GRABBING_ENEMY);
-		}
+
 	}
         if(keystate[SDLK_q]){
                 *gameState = write_EndProgramStatus(true,*gameState);

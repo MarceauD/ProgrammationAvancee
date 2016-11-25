@@ -83,7 +83,7 @@ void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Rect *sou
         update_previousTime(T);
     }
     SDL_BlitSurface(Rect,source,screen,&rcRect);
-    AnimatePlayerKick(demo,demo,T,250);
+    AnimatePlayerKick(demo,demo,demo,T,250);
     SDL_UpdateRect(screen,0,0,0,0);
 }
 

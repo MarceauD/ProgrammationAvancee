@@ -35,9 +35,9 @@ int main (int argc, char *argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    /*freopen("CON", "w", stdout);
+    freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);*/
+    freopen("CON", "w", stderr);
 
     /* set the title bar */
     SDL_WM_SetCaption(GAME_TITLE,NULL);
@@ -65,7 +65,9 @@ int main (int argc, char *argv[]) {
     bool allDead = false;
     int TimeBetweenEnemies[ENEMIES_LVL1];
 
-    fighter* temp_enemy;
+    fighter* temp_enemy_left;
+    fighter* temp_enemy_right;
+
 
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
 
@@ -79,6 +81,12 @@ int main (int argc, char *argv[]) {
     T = T1 = init_Time();
     LPView = init_LPV(player);
     P = init_Pause();
+
+
+    fighter enemy = init_fighter(GRABBING_ENEMY);
+    enemy.rcSprite.x = DEFAULT_SPRITE_POSITION_X + 300;
+    temp_enemy_right = &enemy;
+
 
     int k = 0;
     int i;
@@ -94,11 +102,11 @@ int main (int argc, char *argv[]) {
    for(i=0;i<ENEMIES_LVL1;i++){
 	if(i == 3 || i == 5 || i == 8){
 	TimeBetweenEnemies[i] = 2500;
-	} else {	
+	} else {
    	TimeBetweenEnemies[i] = 250;
    	}
     }
-  
+
     /*MENU*/
     menu = loadImage(NULL,"sprites/menu.bmp");
     Rect = loadImage(NULL,"sprites/entertocontinue.bmp");
@@ -114,19 +122,18 @@ int main (int argc, char *argv[]) {
     while(!isOver(gameState)){
         if(!gameState.inPause){
             if(!allDead){
-                temp_enemy = whichFighter(enemyLeft);
+                temp_enemy_left = whichFighter(enemyLeft);
             }
-
        	/*Handle the keyboard events*/
-        KeyboardManagerGame(event,&gameState,&player,temp_enemy,&bg,&T);
+        KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
         if(!allDead){
-            MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
+                MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
         }
-        CheckAnimations(&player,temp_enemy,&T);
+        CheckAnimations(&player,temp_enemy_left,temp_enemy_right,&T);
         if(player.p == ANIMATED){
             AnimatePlayer(&player,&T,&bg,&gameState);
         }
-        
+
         BlitImages(&bg, &player, screen, &T);
         if(!allDead){
             BlitEnemies(enemyLeft,screen,launchEnemy,&T);
@@ -150,6 +157,7 @@ int main (int argc, char *argv[]) {
     for(i=0; i<ENEMIES_LVL1; i ++){
 	FreeFighter(enemyLeft[i]);
 	}
+	FreeFighter(enemy);
     SDL_Quit();
     return 0;
 }
