@@ -25,43 +25,21 @@ void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPVi
         SDL_FreeSurface(icon);
     }
 }
+/*DEFINE VARIABLES*/
+SDL_Surface* screen,*menu,*Rect;
+SDL_Rect rcRect, source;
+SDL_Event event;
+fighter player, enemy, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
+GameState gameState;
+background bg;
+LPV LPView;
+Time T,T1;
+Pause P;
+bool launchEnemy[ENEMIES_LVL1],allDead, created[ENEMIES_LVL1], cleaned[ENEMIES_LVL1],createdEnemy,cleanedEnemy;
+int TimeBetweenEnemies[ENEMIES_LVL1],k,i;
 
-int main (/*int argc, char *argv[]*/)
+void InitGame (/*GameState gameState,fighter player,fighter demo,background bg,Time T,LPV LPView,Pause P,bool allDead,int k,SDL_Event event,fighter enemy,bool createdEnemy, bool cleanedEnemy, int i,int TimeBetweenEnemies*/)
 {
-  SDL_Init(SDL_INIT_VIDEO);
-
-  /*freopen("CON", "w", stdout);
-  freopen("CON", "r", stdin);
-  freopen("CON", "w", stderr);*/
-
-  /* set the title bar */
-  SDL_WM_SetCaption(GAME_TITLE,NULL);
-
-  SDL_Surface * icon;
-  icon = SDL_LoadBMP("sprites/logo.bmp");
-  if(icon){
-    SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
-  }
-  SDL_WM_SetIcon(icon,NULL);
-
-  /*DEFINE VARIABLES*/
-  SDL_Surface* screen,*menu,*Rect;
-  SDL_Rect rcRect, source;
-  SDL_Event event;
-  fighter player, enemy, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
-  GameState gameState;
-  background bg;
-  LPV LPView;
-  Time T,T1;
-  Pause P;
-  bool launchEnemy[ENEMIES_LVL1],allDead, created[ENEMIES_LVL1], cleaned[ENEMIES_LVL1],createdEnemy,cleanedEnemy;
-  int TimeBetweenEnemies[ENEMIES_LVL1],k,i;
-
-  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-
-  SDL_EnableKeyRepeat(10, 10);
-
-  /*INIT ALL VARIABLES*/
   gameState = init_GameState();
   player = init_fighter(PLAYER);
   demo = init_fighter(PLAYER);
@@ -91,6 +69,26 @@ int main (/*int argc, char *argv[]*/)
        	TimeBetweenEnemies[i] = 250;
       }
   }
+}
+
+int main (/*int argc, char *argv[]*/)
+{
+  /*freopen("CON", "w", stdout);
+  freopen("CON", "r", stdin);
+  freopen("CON", "w", stderr);*/
+  
+  /* set the title bar, the icon... */
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_WM_SetCaption(GAME_TITLE,NULL);
+  SDL_Surface * icon;
+  icon = SDL_LoadBMP("sprites/logo.bmp");
+  if(icon) SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
+  SDL_WM_SetIcon(icon,NULL);
+  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+  SDL_EnableKeyRepeat(10, 10);
+
+  /*INIT ALL VARIABLES*/
+  InitGame();
 
   /*MENU*/
   menu = loadImage(NULL,"sprites/menu.bmp");
