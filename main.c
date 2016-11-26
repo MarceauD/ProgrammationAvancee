@@ -17,13 +17,13 @@
 SDL_Surface* screen,*menu,*Rect, *gameoverpage;
 SDL_Rect rcRect, source;
 SDL_Event event;
-fighter player, enemy, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
+fighter player, enemyl, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
 GameState gameState;
 background bg;
 LPV LPView;
 Time T,T1;
 Pause P;
-bool launchEnemy[ENEMIES_LVL1],allDead, created[ENEMIES_LVL1], cleaned[ENEMIES_LVL1],createdEnemy,cleanedEnemy;
+bool launchEnemyl[ENEMIES_LVL1],allDead, createdl[ENEMIES_LVL1], cleanedl[ENEMIES_LVL1],createdEnemyl,cleanedEnemyl;
 int TimeBetweenEnemies[ENEMIES_LVL1],k,i;
 
 int main (/*int argc, char *argv[]*/)
@@ -63,7 +63,7 @@ int main (/*int argc, char *argv[]*/)
      	/*Handle the keyboard events*/
       KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
       if(!allDead){
-        MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
+        MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemyl,&k,TimeBetweenEnemies);
       }
       CheckAnimations(&player,temp_enemy_left,temp_enemy_right,&T);
       if(player.p == ANIMATED){
@@ -72,7 +72,7 @@ int main (/*int argc, char *argv[]*/)
 
       BlitImages(&bg, &player, screen, &T);
       if(!allDead){
-        BlitEnemies(enemyLeft,screen,launchEnemy,&T);
+        BlitEnemies(enemyLeft,screen,launchEnemyl,&T);
       }
       if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
         allDead = true;
@@ -84,7 +84,7 @@ int main (/*int argc, char *argv[]*/)
     }else{
       PauseGame(P,&gameState,screen);
     }
-    
+
     /* update the screen */
     SDL_UpdateRect(screen, 0, 0, 0, 0);
     SDL_Delay(10);
@@ -100,7 +100,7 @@ int main (/*int argc, char *argv[]*/)
     SDL_FreeSurface(gameoverpage);
     SDL_FreeSurface(Rect);
   }
-  CleanVariables(screen, player,enemy,enemyLeft,cleaned,created, bg, LPView,P,icon);
+  CleanVariables(screen, player,enemyl,enemyLeft,cleanedl,createdl, bg, LPView,P,icon);
   SDL_Quit();
   return 0;
 }

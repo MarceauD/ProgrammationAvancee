@@ -13,18 +13,18 @@ void InitGame (/*GameState gameState,fighter player,fighter demo,background bg,T
   allDead = false;
   event.type = 0;
 
-  enemy = init_fighter(GRABBING_ENEMY_LEFT);
-  createdEnemy = true;
-  cleanedEnemy = false;
+  enemyl = init_fighter(GRABBING_ENEMY_LEFT);
+  createdEnemyl = true;
+  cleanedEnemyl = false;
   //enemy.rcSprite.x = DEFAULT_SPRITE_POSITION_X + 300;
-  temp_enemy_right = &enemy;
+  temp_enemy_right = &enemyl;
 
   for (i=0; i<ENEMIES_LVL1; i++){
       enemyLeft[i] = init_fighter(GRABBING_ENEMY_LEFT);
-      created[i] = true;
-      cleaned[i] = false;
-      if (i>0) launchEnemy[i] = false;
-      if (i==0) launchEnemy[i] = true;
+      createdl[i] = true;
+      cleanedl[i] = false;
+      if (i>0) launchEnemyl[i] = false;
+      if (i==0) launchEnemyl[i] = true;
       if(i == 3 || i == 5 || i == 8){
         TimeBetweenEnemies[i] = 2500;
     	}else {

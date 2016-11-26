@@ -24,11 +24,11 @@ extern Time T;
 extern Time T1;
 
 extern bool allDead;
-extern bool createdEnemy;
-extern bool cleanedEnemy;
-extern bool cleaned[ENEMIES_LVL1];
-extern bool created[ENEMIES_LVL1];
-extern bool launchEnemy[ENEMIES_LVL1];
+extern bool createdEnemyl;
+extern bool cleanedEnemyl;
+extern bool cleanedl[ENEMIES_LVL1];
+extern bool createdl[ENEMIES_LVL1];
+extern bool launchEnemyl[ENEMIES_LVL1];
 
 extern int k;
 extern int i;
@@ -38,7 +38,7 @@ extern SDL_Event event;
 extern SDL_Surface *screen;
 extern SDL_Surface * icon;
 
-extern fighter enemy;
+extern fighter enemyl;
 extern fighter enemyLeft[ENEMIES_LVL1];
 extern fighter player;
 extern fighter demo;
