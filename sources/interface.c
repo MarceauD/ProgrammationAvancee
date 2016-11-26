@@ -54,8 +54,9 @@ Pause init_Pause(){
 }
 
 void PauseGame(Pause P, GameState *G, SDL_Surface *screen){
-    SDL_Event Event;
-    KeyboardManagerPause(Event,G);
+    SDL_Event event;
+		event.type = 0;
+    KeyboardManagerPause(event,G);
     SDL_BlitSurface(P.sprite,NULL,screen,&P.rcSprite);
 }
 
