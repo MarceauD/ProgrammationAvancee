@@ -2,6 +2,14 @@
 
 void InitGame (/*GameState gameState,fighter player,fighter demo,background bg,Time T,LPV LPView,Pause P,bool allDead,int k,SDL_Event event,fighter enemy,bool createdEnemy, bool cleanedEnemy, int i,int TimeBetweenEnemies*/)
 {
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_WM_SetCaption(GAME_TITLE,NULL);
+  icon = SDL_LoadBMP("sprites/logo.bmp");
+  if(icon) SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
+  SDL_WM_SetIcon(icon,NULL);
+  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+  SDL_EnableKeyRepeat(10, 10);
+
   gameState = init_GameState();
   player = init_fighter(PLAYER);
   demo = init_fighter(PLAYER);
@@ -17,7 +25,7 @@ void InitGame (/*GameState gameState,fighter player,fighter demo,background bg,T
   createdEnemyl = true;
   cleanedEnemyl = false;
   //enemy.rcSprite.x = DEFAULT_SPRITE_POSITION_X + 300;
-  temp_enemy_right = &enemyl;
+  temp_enemy_left = &enemyl;
 
   for (i=0; i<ENEMIES_LVL1; i++){
       enemyLeft[i] = init_fighter(GRABBING_ENEMY_LEFT);

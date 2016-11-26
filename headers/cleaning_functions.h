@@ -15,6 +15,7 @@
 #include "interface.h"
 #include "level.h"
 
+//NEUTRE
 extern GameState gameState;
 extern background bg;
 extern LPV LPView;
@@ -22,13 +23,6 @@ extern Pause P;
 
 extern Time T;
 extern Time T1;
-
-extern bool allDead;
-extern bool createdEnemyl;
-extern bool cleanedEnemyl;
-extern bool cleanedl[ENEMIES_LVL1];
-extern bool createdl[ENEMIES_LVL1];
-extern bool launchEnemyl[ENEMIES_LVL1];
 
 extern int k;
 extern int i;
@@ -38,11 +32,20 @@ extern SDL_Event event;
 extern SDL_Surface *screen;
 extern SDL_Surface * icon;
 
-extern fighter enemyl;
-extern fighter enemyLeft[ENEMIES_LVL1];
 extern fighter player;
 extern fighter demo;
-extern fighter *temp_enemy_right;
+
+extern bool allDead;
+//LEFT
+extern bool createdEnemyl;
+extern bool cleanedEnemyl;
+extern bool cleanedl[ENEMIES_LVL1];
+extern bool createdl[ENEMIES_LVL1];
+extern bool launchEnemyl[ENEMIES_LVL1];
+
+extern fighter enemyl;
+extern fighter enemyLeft[ENEMIES_LVL1];
+extern fighter *temp_enemy_left;
 
 
 

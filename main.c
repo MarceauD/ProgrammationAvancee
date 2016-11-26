@@ -14,16 +14,26 @@
 #include "headers/cleaning_functions.h"
 
 /*DEFINE VARIABLES*/
-SDL_Surface* screen,*menu,*Rect, *gameoverpage;
+//LEFT
+fighter enemyl,enemyLeft[ENEMIES_LVL1], *temp_enemy_left;
+bool launchEnemyl[ENEMIES_LVL1], createdl[ENEMIES_LVL1], cleanedl[ENEMIES_LVL1],createdEnemyl,cleanedEnemyl;
+
+//RIGHT
+fighter enemyr,enemyRight[ENEMIES_LVL1], *temp_enemy_right;
+bool launchEnemyr[ENEMIES_LVL1], createdr[ENEMIES_LVL1], cleanedr[ENEMIES_LVL1],createdEnemyr,cleanedEnemyr;
+
+
+//NEUTRE
+SDL_Surface* screen,*menu,*Rect, *gameoverpage, *icon;
 SDL_Rect rcRect, source;
 SDL_Event event;
-fighter player, enemyl, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
+fighter player, demo;
 GameState gameState;
 background bg;
 LPV LPView;
 Time T,T1;
 Pause P;
-bool launchEnemyl[ENEMIES_LVL1],allDead, createdl[ENEMIES_LVL1], cleanedl[ENEMIES_LVL1],createdEnemyl,cleanedEnemyl;
+bool allDead;
 int TimeBetweenEnemies[ENEMIES_LVL1],k,i;
 
 int main (/*int argc, char *argv[]*/)
@@ -31,16 +41,6 @@ int main (/*int argc, char *argv[]*/)
   /*freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
   freopen("CON", "w", stderr);*/
-
-  /* set the title bar, the icon... */
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_WM_SetCaption(GAME_TITLE,NULL);
-  SDL_Surface * icon;
-  icon = SDL_LoadBMP("sprites/logo.bmp");
-  if(icon) SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
-  SDL_WM_SetIcon(icon,NULL);
-  screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-  SDL_EnableKeyRepeat(10, 10);
 
   /*INIT ALL VARIABLES*/
   InitGame();
@@ -58,14 +58,14 @@ int main (/*int argc, char *argv[]*/)
   while(!isOver(gameState) && !gameState.gameover){
     if(!gameState.inPause){
       if(!allDead){
-        temp_enemy_left = whichFighter(enemyLeft);
+        temp_enemy_right = whichFighter(enemyLeft);
       }
      	/*Handle the keyboard events*/
-      KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
+      KeyboardManagerGame(event,&gameState,&player,temp_enemy_right,temp_enemy_left,&bg,&T);
       if(!allDead){
         MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemyl,&k,TimeBetweenEnemies);
       }
-      CheckAnimations(&player,temp_enemy_left,temp_enemy_right,&T);
+      CheckAnimations(&player,temp_enemy_right,temp_enemy_left,&T);
       if(player.p == ANIMATED){
         AnimatePlayer(&player,&T,&bg,&gameState);
       }
