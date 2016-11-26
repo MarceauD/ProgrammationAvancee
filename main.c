@@ -84,9 +84,9 @@ int main (/*int argc, char *argv[]*/)
     }else{
       PauseGame(P,&gameState,screen);
     }
+    
     /* update the screen */
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-
     SDL_Delay(10);
   }
   //GAMEOVER
