@@ -12,8 +12,8 @@
 #include "headers/interface.h"
 #include "headers/level.h"
 
-void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPView, Pause P, SDL_Surface * icon);
-void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPView, Pause P, SDL_Surface * icon){
+void CleanVariables(SDL_Surface *screen, fighter player,fighter enemy,fighter enemyLeft[ENEMIES_LVL1],bool cleaned[ENEMIES_LVL1], bool created[ENEMIES_LVL1], background bg, LPV LPView, Pause P, SDL_Surface * icon);
+void CleanVariables(SDL_Surface *screen, fighter player,fighter enemy,fighter enemyLeft[ENEMIES_LVL1],bool cleaned[ENEMIES_LVL1], bool created[ENEMIES_LVL1], background bg, LPV LPView, Pause P, SDL_Surface * icon){
     if(screen != NULL){
         SDL_FreeSurface(screen);
     }
@@ -24,9 +24,16 @@ void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPVi
     if(icon != NULL){
         SDL_FreeSurface(icon);
     }
+    for(int i=0; i<ENEMIES_LVL1; i ++){
+      if (created[i] == true && cleaned[i] == false) {
+        cleaned[i] = true;
+        FreeFighter(enemyLeft[i]);
+      }
+    }
+    FreeFighter(enemy);
 }
 /*DEFINE VARIABLES*/
-SDL_Surface* screen,*menu,*Rect;
+SDL_Surface* screen,*menu,*Rect, *gameoverpage;
 SDL_Rect rcRect, source;
 SDL_Event event;
 fighter player, enemy, demo,enemyLeft[ENEMIES_LVL1], *temp_enemy_left, *temp_enemy_right;
@@ -76,7 +83,7 @@ int main (/*int argc, char *argv[]*/)
   /*freopen("CON", "w", stdout);
   freopen("CON", "r", stdin);
   freopen("CON", "w", stderr);*/
-  
+
   /* set the title bar, the icon... */
   SDL_Init(SDL_INIT_VIDEO);
   SDL_WM_SetCaption(GAME_TITLE,NULL);
@@ -100,7 +107,7 @@ int main (/*int argc, char *argv[]*/)
   FreeFighter(demo);
 
   /*GAME*/
-  while(!isOver(gameState)){
+  while(!isOver(gameState) && !gameState.gameover){
     if(!gameState.inPause){
       if(!allDead){
         temp_enemy_left = whichFighter(enemyLeft);
@@ -122,7 +129,9 @@ int main (/*int argc, char *argv[]*/)
       if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
         allDead = true;
       }
-
+      if(!isAlive(player)){
+        gameState.gameover = true;
+      }
       ViewLifepoints(&LPView,player,screen);
     }else{
       PauseGame(P,&gameState,screen);
@@ -132,12 +141,18 @@ int main (/*int argc, char *argv[]*/)
 
     SDL_Delay(10);
   }
-
-  CleanVariables(screen, player, bg, LPView,P,icon);
-  for(i=0; i<ENEMIES_LVL1; i ++){
-    FreeFighter(enemyLeft[i]);
+  //GAMEOVER
+  while(!isOver(gameState) && gameState.gameover){
+    gameoverpage = loadImage(NULL,"sprites/gameover.bmp");
+    Rect = loadImage(NULL,"sprites/entertoreplay.bmp");
+    init_Menu(&rcRect,&source,&demo);
+    while(gameState.gameover){
+      Menu(gameoverpage,Rect,rcRect,&source,&T,event,&gameState,screen,&demo);
+    }
+    SDL_FreeSurface(gameoverpage);
+    SDL_FreeSurface(Rect);
   }
-  FreeFighter(enemy);
+  CleanVariables(screen, player,enemy,enemyLeft,cleaned,created, bg, LPView,P,icon);
   SDL_Quit();
   return 0;
 }
