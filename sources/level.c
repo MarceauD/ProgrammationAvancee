@@ -38,6 +38,30 @@ void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time 
     }
 }
 
+extern void MoveEnemiesLeft(fighter enemyRight[ENEMIES_LVL2], fighter *player, Time *T, Time *T1,bool launchEnemyRight[ENEMIES_LVL2], int *cpt, int TimeBetweenEnemiesRight[ENEMIES_LVL2]){
+    MoveEnemyLeft(&enemyRight[0],player,T);
+    update_currentTime(T1);
+    if(time_gap(*T1) > TimeBetweenEnemiesRight[*cpt]){
+        launchEnemyRight[*cpt] = true;
+        update_previousTime(T1);
+        *cpt = *cpt + 1;
+    }
+    int j;
+    for(j=1; j < ENEMIES_LVL2; j ++){
+        if(launchEnemyRight[j]){
+	    bool Alive = isAlive(enemyRight[j-1]);
+            if(Alive){
+                MoveEnemyLeft(&enemyRight[j],&enemyRight[j-1],T);
+            }
+            else{
+                MoveEnemyLeft(&enemyRight[j],player,T);
+            }
+        }
+    }
+
+
+}
+
 void BlitEnemies(fighter enemyLeft[ENEMIES_LVL1], SDL_Surface * screen, bool launchEnemy[ENEMIES_LVL1],Time *T){
     int i;
     for(i = 0; i < ENEMIES_LVL1; i ++ ){
@@ -51,11 +75,22 @@ void BlitEnemies(fighter enemyLeft[ENEMIES_LVL1], SDL_Surface * screen, bool lau
 void ChangeLevel(fighter * player, background * bg, GameState *gs){
     SDL_Surface * temp;
     temp = bg->surface;
-    bg->surface = loadImage(bg->surface,"sprites/floors/floor2.bmp");
-    SDL_FreeSurface(temp);
-    player->r = RIGHT;
-    player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
-    player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
-    player->source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
-    gs->lvl = Level2;
+    if(gs->lvl == Level1){
+        bg->surface = loadImage(bg->surface,"sprites/floors/floor2.bmp");
+        SDL_FreeSurface(temp);
+        player->r = RIGHT;
+        player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+        player->source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
+        player->source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
+        gs->lvl = Level2;
+    }
+    else if(gs->lvl == Level2){
+        bg->surface = loadImage(bg->surface,"sprites/floors/floor3.bmp");
+        SDL_FreeSurface(temp);
+        player->r = LEFT;
+        player->rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
+        player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
+        player->source.y = SOURCE_POS_PLAYER_STANDING_LEFT_Y;
+        gs->lvl = Level3;
+    }
 }

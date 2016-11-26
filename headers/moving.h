@@ -13,7 +13,7 @@
 extern void MovePlayerLeft(fighter *player,fighter *enemy,fighter *enemy_r, background *bg, Time *T, GameState *gs);
 
 /*move the player or the background to the right*/
-extern void MovePlayerRight(fighter *player, fighter *enemy,fighter *enemy_r, background *bg, Time *T);
+extern void MovePlayerRight(fighter *player, fighter *enemy,fighter *enemy_r, background *bg, Time *T, GameState *gs);
 
 /*move the enemy right*/
 extern void MoveEnemyRight(fighter *enemy, fighter *player, Time *T);

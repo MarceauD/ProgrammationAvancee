@@ -27,7 +27,7 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
 
         if (keystate[SDLK_RIGHT]){
             if((player->p == STANDING) || (player->p == KNELT && player->p != DEAD && player->p != DYING && player->p != ANIMATED)){
-                MovePlayerRight(player,enemy,enemy_r, bg, T);
+                MovePlayerRight(player,enemy,enemy_r, bg, T,gameState);
             }
         }
 
@@ -59,11 +59,10 @@ void KeyboardManagerGame(SDL_Event event, GameState *gameState, fighter *player,
 
 
 
-void KeyboardManagerPause(SDL_Event event, GameState *gameState){
+void KeyboardManagerPause(SDL_Event Event, GameState *gameState){
         Uint8 *keystate;
-        event.type = 0;
-        if (SDL_PollEvent(&event)){
-                switch (event.type){
+        if (SDL_PollEvent(&Event)){
+                switch (Event.type){
                         case SDL_QUIT:
                                     *gameState = write_EndProgramStatus(true,*gameState);
                         break;
@@ -93,14 +92,9 @@ void KeyboardManagerMenu(SDL_Event event, GameState *G){
     keystate = SDL_GetKeyState(NULL);
     if(keystate[SDLK_RETURN]){
         G->inMenu = false;
-        G->gameover = false;
     }
     if(keystate[SDLK_q] || keystate[SDLK_ESCAPE]){
         G->inMenu = false;
         G->EndProgram = true;
-    }
-    if(keystate[SDLK_r]){
-        G->inMenu = false;
-        G->gameover = false;
     }
 }

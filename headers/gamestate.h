@@ -8,6 +8,7 @@
 enum Level{
     Level1,
     Level2,
+    Level3,
 };
 
 struct GameState{
@@ -15,7 +16,6 @@ struct GameState{
     bool inMenu;
     bool inPause;
     enum Level lvl;
-    bool gameover;
 };
 
 typedef struct GameState GameState;

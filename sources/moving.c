@@ -17,7 +17,6 @@ void MovePlayerLeft(fighter *player,fighter *enemy,fighter *enemy_r, background 
         if((!collision(player->rcSprite,enemy->rcSprite) || !isAlive(*enemy)) && (!collision(player->rcSprite,enemy_r->rcSprite) || !isAlive(*enemy_r)) ){
             if (player->rcSprite.x < SCREEN_WIDTH/2 - SPRITE_WIDTH) {
                 bg->source.x = bg->source.x - PLAYER_SPEED;
-                MoveEnemyRight(enemy,player,T);
             }
             else{
             player->rcSprite.x = player->rcSprite.x - PLAYER_SPEED;
@@ -34,36 +33,56 @@ void MovePlayerLeft(fighter *player,fighter *enemy,fighter *enemy_r, background 
 }
 
 void AnimatePlayer(fighter * player, Time *T,background * bg, GameState *gs){
-    if(player->p == ANIMATED){
-        player->rcSprite.x -= 1;
-        player->rcSprite.y -= 1.10;
-        update_currentTime(T);
-        if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
-            AnimatePlayerLeft(player);
-            player->previousTime = T->currentTime;
+    if(gs->lvl == Level1){
+        if(player->p == ANIMATED){
+            player->rcSprite.x -= 1;
+            player->rcSprite.y -= 1.10;
+            update_currentTime(T);
+            if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+                AnimatePlayerLeft(player);
+                player->previousTime = T->currentTime;
+            }
+        if(player->rcSprite.y <= 45){
+            player->p = STANDING;
+            ChangeLevel(player,bg,gs);
         }
-    if(player->rcSprite.y <= 45){
-        player->p = STANDING;
-        ChangeLevel(player,bg,gs);
-    }
+        }
+    }else if(gs->lvl == Level2){
+        if(player->p == ANIMATED){
+            player->rcSprite.x += 1;
+            player->rcSprite.y -= 1.10;
+            update_currentTime(T);
+            if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
+                AnimatePlayerRight(player);
+                player->previousTime = T->currentTime;
+            }
+            if(player->rcSprite.y <= 45){
+                player->p = STANDING;
+                ChangeLevel(player,bg,gs);
+            }
+        }
     }
 }
 
-void MovePlayerRight(fighter *player, fighter *enemy,fighter * enemy_r, background *bg, Time *T){
+void MovePlayerRight(fighter *player, fighter *enemy,fighter * enemy_r, background *bg, Time *T,GameState *gs){
+        if(player->rcSprite.x >= 605 && gs->lvl == Level2){
+                player->p = ANIMATED;
+        }
         update_currentTime(T);
         if(T->currentTime - player->previousTime > TIME_BTW_ANIMATIONS){
             AnimatePlayerRight(player);
             player->previousTime = T->currentTime;
         }
-        printf("ENEMY LEFT COLLISION : %s\nENEMY RIGHT COLLISION : %s\n",(!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy))?"FALSE":"TRUE",(!collision(player->rcSprite,enemy_r->rcSprite) || !isAlive(*enemy_r))?"FALSE":"TRUE");
+
         if( (!collision(player->rcSprite, enemy->rcSprite) || !isAlive(*enemy)) && (!collision(player->rcSprite,enemy_r->rcSprite) || !isAlive(*enemy_r))){
-
             if (player->rcSprite.x > SCREEN_WIDTH/2 - SPRITE_WIDTH) {
-                bg->source.x = bg->source.x + PLAYER_SPEED;
-
+                if(gs->lvl != Level1 || player->rcSprite.x < 725){
+                    bg->source.x = bg->source.x + PLAYER_SPEED;
+                }
             }
             else{
-                player->rcSprite.x = player->rcSprite.x + PLAYER_SPEED;
+                    player->rcSprite.x = player->rcSprite.x + PLAYER_SPEED;
+                }
             }
             if (bg->source.x > SOURCE_POS_BG_RIGHT_LIMIT_X){
                 bg->source.x = SOURCE_POS_BG_RIGHT_LIMIT_X;
@@ -74,7 +93,6 @@ void MovePlayerRight(fighter *player, fighter *enemy,fighter * enemy_r, backgrou
             }
         }
 
-}
 
 void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
     enemy->r = RIGHT;
@@ -85,7 +103,7 @@ void MoveEnemyRight(fighter *enemy, fighter *player, Time *T){
 		    AnimatePlayerRight(enemy);
 		    enemy->previousTime = T->currentTime;
 		}
-		enemy->rcSprite.x = enemy->rcSprite.x + 1;
+		enemy->rcSprite.x = enemy->rcSprite.x + ENEMY_SPEED;
 		update_previousTime(T);
 	    }
 	    else{
@@ -105,7 +123,7 @@ void MoveEnemyLeft(fighter *enemy, fighter * player, Time *T){
 		    AnimatePlayerLeft(enemy);
 		    enemy->previousTime = T->currentTime;
 		}
-		enemy->rcSprite.x = enemy->rcSprite.x - 1;
+		enemy->rcSprite.x = enemy->rcSprite.x - ENEMY_SPEED;
 		update_previousTime(T);
 	    }
 	    else{

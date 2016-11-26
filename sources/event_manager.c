@@ -37,12 +37,12 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 
 void EnemyAttackLeft(fighter *enemy, fighter *player, Time *T){
     if(isAlive(*enemy)){
-	    if(enemy->rcSprite.y != DEFAULT_SPRITE_POSITION_Y + 5){
+        if(enemy->rcSprite.y != DEFAULT_SPRITE_POSITION_Y + 5){
 	    	enemy->rcSprite.y = DEFAULT_SPRITE_POSITION_Y + 5;
 	    }
-	    /*enemy->source.x = 232;
-	    enemy->source.y = 326;*/
-            update_currentTime(T);
+	    enemy->source.x = 18;
+	    enemy->source.y = 433;
+        update_currentTime(T);
             if(T->currentTime - enemy->previousTime > 1000){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
                 enemy->previousTime = T->currentTime;
