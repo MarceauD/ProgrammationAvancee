@@ -4,6 +4,7 @@
 
 GameState init_GameState(){
     GameState gameState;
+    gameState.gameover = false;
     gameState.EndProgram = false;
     gameState.inMenu = true;
     gameState.inPause = false;
@@ -63,5 +64,3 @@ void update_currentTime(Time *T){
 void update_previousTime(Time *T){
     T->previousTime = T->currentTime;
 }
-
-

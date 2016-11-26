@@ -14,7 +14,8 @@ enum rotation{
 
 enum fighter_kind{
     PLAYER,
-    GRABBING_ENEMY,
+    GRABBING_ENEMY_LEFT,
+    GRABBING_ENEMY_RIGHT,
     PUNCHING_ENEMY,
     KNIVES_THROWING_ENEMY,
 };

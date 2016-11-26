@@ -15,6 +15,7 @@ struct GameState{
     bool inMenu;
     bool inPause;
     enum Level lvl;
+    bool gameover;
 };
 
 typedef struct GameState GameState;
