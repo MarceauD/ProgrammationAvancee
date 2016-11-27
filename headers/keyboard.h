@@ -17,4 +17,7 @@ extern void KeyboardManagerPause(SDL_Event Event, GameState *G);
 /*Handle the keyboard events during the menu*/
 extern void KeyboardManagerMenu(SDL_Event event, GameState *G);
 
+/*Hande the keyboard events during the end menu*/
+extern void KeyboardManagerEndMenu(SDL_Event event, GameState *gameState);
+
 #endif //KEYBOARD_H

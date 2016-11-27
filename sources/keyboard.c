@@ -98,3 +98,25 @@ void KeyboardManagerMenu(SDL_Event event, GameState *G){
         G->EndProgram = true;
     }
 }
+
+
+void KeyboardManagerEndMenu(SDL_Event event, GameState *gameState){
+        Uint8 *keystate;
+        if (SDL_PollEvent(&event)){
+                switch (event.type){
+                        case SDL_QUIT:
+                                    *gameState = write_EndProgramStatus(true,*gameState);
+                        break;
+                }
+        }
+        keystate = SDL_GetKeyState(NULL);
+        if(keystate[SDLK_RETURN]){
+            gameState->EndMenu = false;
+            gameState->EndProgram = true;
+        }
+        if(keystate[SDLK_ESCAPE]){
+            gameState->EndMenu = false;
+            gameState->EndProgram = true;
+        }
+
+}

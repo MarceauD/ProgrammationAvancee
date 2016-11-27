@@ -54,4 +54,6 @@ extern void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Re
 /*initialize the menu ( could also be done with a structure as for LPV, or Pause )*/
 extern void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo);
 
+extern void EndMenuVictory(SDL_Surface *screen,GameState * gameState, Time *T);
+
 #endif //INTERFACE_H

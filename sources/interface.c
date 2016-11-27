@@ -98,3 +98,42 @@ void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo){
     demo->rcSprite.x = SCREEN_WIDTH / 2 - SPRITE_WIDTH;
     demo->rcSprite.y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2 ;
 }
+
+
+void EndMenuVictory(SDL_Surface * screen, GameState *gameState,Time *T){
+    SDL_Surface * endmenu;
+    fighter beloved;
+    SDL_Event event;
+
+    endmenu = loadImage(NULL,"sprites/endMenuVictory.bmp");
+
+    beloved.sprite = loadImage(NULL,"sprites/end_game.bmp");
+    SDL_SetColorKey(beloved.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(beloved.sprite->format,39,82,39));
+    beloved.previousTime = 0;
+    beloved.source.x = 2;
+    beloved.source.w = 50   ;
+    beloved.source.y = 0;
+    beloved.rcSprite.x = (SCREEN_WIDTH / 2 )- SPRITE_WIDTH;
+    beloved.rcSprite.y = SCREEN_HEIGHT / 2;
+    beloved.rcSprite.w = 50;
+
+    while(gameState->EndMenu){
+        KeyboardManagerEndMenu(event,gameState);
+        update_currentTime(T);
+        if(T->currentTime - beloved.previousTime > 250){
+            if(beloved.source.x > 110){
+                beloved.source.x = 0;
+            }
+            else {
+                beloved.source.x = beloved.source.x + 50;
+            }
+            beloved.previousTime = T->currentTime;
+        }
+        SDL_BlitSurface(endmenu,NULL,screen,NULL);
+        SDL_BlitSurface(beloved.sprite,&beloved.source,screen,&beloved.rcSprite);
+        SDL_UpdateRect(screen,0,0,0,0);
+    }
+
+    SDL_FreeSurface(endmenu);
+    FreeFighter(beloved);
+}

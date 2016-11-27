@@ -15,6 +15,7 @@ struct GameState{
     bool EndProgram;
     bool inMenu;
     bool inPause;
+    bool EndMenu;
     enum Level lvl;
 };
 
