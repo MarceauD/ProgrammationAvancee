@@ -29,8 +29,6 @@ void CleanVariables(SDL_Surface *screen, fighter player, background bg, LPV LPVi
     }
 }
 
-
-
 int main (int argc, char *argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
@@ -87,7 +85,6 @@ int main (int argc, char *argv[]) {
     P = init_Pause();
 
 
-
     int k = 0;
     int cpt = 0;
 
@@ -136,7 +133,7 @@ int main (int argc, char *argv[]) {
 
     /*GAME*/
     while(!isOver(gameState)){
-        if(!gameState.inPause){
+        if(!gameState.inPause && !gameState.EndMenu){
             if(!allDead){
                 temp_enemy_left = whichFighter(enemyLeft);
             }
@@ -166,11 +163,21 @@ int main (int argc, char *argv[]) {
         if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
             allDead = true;
         }
-
+        if((gameState.lvl == Level3 && player.rcSprite.x < 70 )|| (!isAlive(player))){
+            gameState.EndMenu = true;
+        }
         ViewLifepoints(&LPView,player,screen);
     }
-    else{
+    else if(gameState.inPause){
         PauseGame(P,&gameState,screen);
+    }
+    else if (gameState.EndMenu){
+            if(isAlive(player)){
+                EndMenuVictory(screen,&gameState,&T);
+            }
+            else{
+                //EndMenuDefeat(screen,&gameState);
+            }
     }
         /* update the screen */
         SDL_UpdateRect(screen, 0, 0, 0, 0);
