@@ -137,3 +137,17 @@ void EndMenuVictory(SDL_Surface * screen, GameState *gameState,Time *T){
     SDL_FreeSurface(endmenu);
     FreeFighter(beloved);
 }
+
+
+void EndMenuDefeat(SDL_Surface *screen, GameState *gameState, Time *T){
+    SDL_Surface * endmenu;
+    SDL_Event event;
+    endmenu = loadImage(NULL,"sprites/endMenuDefeat.bmp");
+
+    while(gameState->EndMenu){
+        KeyboardManagerEndMenu(event,gameState);
+        SDL_BlitSurface(endmenu,NULL,screen,NULL);
+        SDL_UpdateRect(screen,0,0,0,0);
+    }
+    SDL_FreeSurface(endmenu);
+}

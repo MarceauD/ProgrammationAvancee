@@ -21,4 +21,8 @@ extern void BlitEnemies(fighter enemyLeft[ENEMIES_LVL1], SDL_Surface * screen, b
 /*move to the next level*/
 extern void ChangeLevel(fighter *player, background *bg, GameState *gs);
 
+extern void resetTabEnemies(fighter enemies[ENEMIES_LVL1]);
+
+extern void resetTabLaunch(bool launchEnemy[ENEMIES_LVL1]);
+
 #endif //LEVEL_H

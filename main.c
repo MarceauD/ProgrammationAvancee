@@ -98,27 +98,38 @@ int main (int argc, char *argv[]) {
         enemyRight[i].rcSprite.x = DEFAULT_SPRITE_POSITION_X + 500;
     }
 
-    launchEnemy[0] = true;
-    for(i=1; i<ENEMIES_LVL1;i++){
+    for(i=0; i<ENEMIES_LVL1;i++){
         launchEnemy[i] = false;
     }
 
-    launchEnemyRight[0] =  true;
-    for(i = 1; i<ENEMIES_LVL2;i++){
+    for(i = 0; i<ENEMIES_LVL2;i++){
         launchEnemyRight[i] =  false;
     }
 
    for(i=0;i<ENEMIES_LVL1;i++){
 	if(i == 3 || i == 5 || i == 8){
-	TimeBetweenEnemies[i] = 2500;
-	} else {
-   	TimeBetweenEnemies[i] = 250;
+	TimeBetweenEnemies[i] = 2000;
+	} else if (i == 0){
+   	TimeBetweenEnemies[i] = 1000;
+   	}
+   	else{
+        TimeBetweenEnemies[i] = 250;
    	}
     }
 
     for(i = 0; i < ENEMIES_LVL2; i ++){
-        TimeBetweenEnemiesRight[i] = 500;
+        if(i == 0){
+            TimeBetweenEnemiesRight[i] = 0;
+        }
+        if(i == 2 || i == 6 || i == 8){
+            TimeBetweenEnemiesRight[i] = 2000;
+        }
+        else{
+            TimeBetweenEnemiesRight[i] = 250;
+        }
     }
+
+    int first_time = 1;
 
     /*MENU*/
     menu = loadImage(NULL,"sprites/menu.bmp");
@@ -134,10 +145,20 @@ int main (int argc, char *argv[]) {
     /*GAME*/
     while(!isOver(gameState)){
         if(!gameState.inPause && !gameState.EndMenu){
-            if(!allDead){
-                temp_enemy_left = whichFighter(enemyLeft);
+             if(gameState.lvl == Level2 && first_time){
+                resetTabEnemies(enemyLeft);
+                resetTabLaunch(launchEnemy);
+                k = 0;
+                first_time = 0;
             }
-       	/*Handle the keyboard events*/
+            if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
+                allDead = true;
+            }
+            else{
+                allDead = false;
+            }
+            temp_enemy_left = whichFighter(enemyLeft);
+
             temp_enemy_right = whichFighter(enemyRight);
 
         KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
@@ -145,7 +166,7 @@ int main (int argc, char *argv[]) {
                 MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
         }
         if(gameState.lvl == Level2){
-            MoveEnemiesLeft(enemyRight,&player,&T,&T1,launchEnemyRight,&cpt,TimeBetweenEnemies);
+            MoveEnemiesLeft(enemyRight,&player,&T,&T1,launchEnemyRight,&cpt,TimeBetweenEnemiesRight);
         }
 
         CheckAnimations(&player,temp_enemy_left,temp_enemy_right,&T);
@@ -160,10 +181,7 @@ int main (int argc, char *argv[]) {
 
         BlitEnemies(enemyLeft,screen,launchEnemy,&T);
 
-        if(!isAlive(enemyLeft[ENEMIES_LVL1 - 1])){
-            allDead = true;
-        }
-        if((gameState.lvl == Level3 && player.rcSprite.x < 70 )|| (!isAlive(player))){
+        if((gameState.lvl == Level3 && player.rcSprite.x < 70 )|| player.p == DEAD){
             gameState.EndMenu = true;
         }
         ViewLifepoints(&LPView,player,screen);
@@ -176,7 +194,7 @@ int main (int argc, char *argv[]) {
                 EndMenuVictory(screen,&gameState,&T);
             }
             else{
-                //EndMenuDefeat(screen,&gameState);
+                EndMenuDefeat(screen,&gameState,&T);
             }
     }
         /* update the screen */

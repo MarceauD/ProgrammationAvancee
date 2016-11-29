@@ -17,7 +17,7 @@ fighter * whichFighter(fighter enemyLeft[ENEMIES_LVL1]){
 }
 
 void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time *T1,bool launchEnemy[ENEMIES_LVL1], int *k, int TimeBetweenEnemies[ENEMIES_LVL1]){
-    MoveEnemyRight(&enemyLeft[0],player,T);
+    //MoveEnemyRight(&enemyLeft[0],player,T);
     update_currentTime(T1);
     if(time_gap(*T1) > TimeBetweenEnemies[*k]){
         launchEnemy[*k] = true;
@@ -25,21 +25,26 @@ void MoveEnemies(fighter enemyLeft[ENEMIES_LVL1],fighter *player, Time *T, Time 
         *k = *k + 1;
     }
     int j;
-    for(j=1; j < ENEMIES_LVL1; j ++){
+    for(j=0; j < ENEMIES_LVL1; j ++){
         if(launchEnemy[j]){
-	    bool Alive = isAlive(enemyLeft[j-1]);
-            if(Alive){
-                MoveEnemyRight(&enemyLeft[j],&enemyLeft[j-1],T);
+            if(j == 0){
+                MoveEnemyRight(&enemyLeft[j],player,T);
             }
             else{
-                MoveEnemyRight(&enemyLeft[j],player,T);
+                    bool Alive = isAlive(enemyLeft[j-1]);
+                    if(Alive){
+                        MoveEnemyRight(&enemyLeft[j],&enemyLeft[j-1],T);
+                    }
+                    else{
+                        MoveEnemyRight(&enemyLeft[j],player,T);
+                    }
             }
         }
     }
 }
 
-extern void MoveEnemiesLeft(fighter enemyRight[ENEMIES_LVL2], fighter *player, Time *T, Time *T1,bool launchEnemyRight[ENEMIES_LVL2], int *cpt, int TimeBetweenEnemiesRight[ENEMIES_LVL2]){
-    MoveEnemyLeft(&enemyRight[0],player,T);
+void MoveEnemiesLeft(fighter enemyRight[ENEMIES_LVL2], fighter *player, Time *T, Time *T1,bool launchEnemyRight[ENEMIES_LVL2], int *cpt, int TimeBetweenEnemiesRight[ENEMIES_LVL2]){
+    //MoveEnemyLeft(&enemyRight[0],player,T);
     update_currentTime(T1);
     if(time_gap(*T1) > TimeBetweenEnemiesRight[*cpt]){
         launchEnemyRight[*cpt] = true;
@@ -47,14 +52,19 @@ extern void MoveEnemiesLeft(fighter enemyRight[ENEMIES_LVL2], fighter *player, T
         *cpt = *cpt + 1;
     }
     int j;
-    for(j=1; j < ENEMIES_LVL2; j ++){
+    for(j=0; j < ENEMIES_LVL2; j ++){
         if(launchEnemyRight[j]){
 	    bool Alive = isAlive(enemyRight[j-1]);
-            if(Alive){
-                MoveEnemyLeft(&enemyRight[j],&enemyRight[j-1],T);
+            if(j == 0){
+                MoveEnemyLeft(&enemyRight[j],player,T);
             }
             else{
-                MoveEnemyLeft(&enemyRight[j],player,T);
+                if(Alive){
+                    MoveEnemyLeft(&enemyRight[j],&enemyRight[j-1],T);
+                }
+                else{
+                    MoveEnemyLeft(&enemyRight[j],player,T);
+                }
             }
         }
     }
@@ -92,5 +102,27 @@ void ChangeLevel(fighter * player, background * bg, GameState *gs){
         player->source.x = SOURCE_POS_PLAYER_STANDING_LEFT_X;
         player->source.y = SOURCE_POS_PLAYER_STANDING_LEFT_Y;
         gs->lvl = Level3;
+    }
+}
+
+
+
+void resetTabEnemies(fighter enemies[ENEMIES_LVL1]){
+    int i;
+    for (i = 0; i < ENEMIES_LVL1 ; i ++){
+        enemies[i].rcSprite.x = DEFAULT_ENEMY_POSITION_X;
+        enemies[i].rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
+        enemies[i].source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
+        enemies[i].source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
+        enemies[i].source.w = SPRITE_WIDTH;
+        enemies[i].lifepoints = DEFAULT_GRABBING_ENEMY_LIFEPOINTS;
+        enemies[i].p = STANDING;
+    }
+}
+
+void resetTabLaunch(bool launchEnemy[ENEMIES_LVL1]){
+    int i;
+    for(i = 0; i < ENEMIES_LVL1; i ++){
+        launchEnemy[i] = false;
     }
 }

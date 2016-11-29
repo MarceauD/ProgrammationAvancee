@@ -28,7 +28,7 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 	    enemy->source.x = 232;
 	    enemy->source.y = 326;
             update_currentTime(T);
-            if(T->currentTime - enemy->previousTime > 1000){
+            if(T->currentTime - enemy->previousTime > 500){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
                 enemy->previousTime = T->currentTime;
             }
@@ -43,7 +43,7 @@ void EnemyAttackLeft(fighter *enemy, fighter *player, Time *T){
 	    enemy->source.x = 18;
 	    enemy->source.y = 433;
         update_currentTime(T);
-            if(T->currentTime - enemy->previousTime > 1000){
+            if(T->currentTime - enemy->previousTime > 500){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
                 enemy->previousTime = T->currentTime;
             }

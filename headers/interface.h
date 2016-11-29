@@ -56,4 +56,5 @@ extern void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo);
 
 extern void EndMenuVictory(SDL_Surface *screen,GameState * gameState, Time *T);
 
+extern void EndMenuDefeat(SDL_Surface *screen,GameState *gameState, Time *T);
 #endif //INTERFACE_H
