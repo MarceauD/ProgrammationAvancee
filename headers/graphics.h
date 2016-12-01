@@ -26,6 +26,7 @@ enum position{
     KNELT,
     JUMP,
     KICK,
+    PUNCH,
     DYING,
     DEAD,
     ANIMATED,

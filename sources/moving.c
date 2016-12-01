@@ -129,8 +129,7 @@ void MoveEnemyLeft(fighter *enemy, fighter * player, Time *T){
 	    else{
 	       if(player->f == PLAYER){
                 EnemyAttackLeft(enemy,player,T);
-                enemy->p = KICK;
-		}
+            }
 	    }
    }
 }

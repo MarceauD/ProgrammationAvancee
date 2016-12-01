@@ -90,11 +90,21 @@ int main (int argc, char *argv[]) {
 
     int i;
     for (i=0; i<ENEMIES_LVL1; i++){
-        enemyLeft[i] = init_fighter(GRABBING_ENEMY);
+        if(i == ENEMIES_LVL1 - 1){
+            enemyLeft[i] = init_fighter(PUNCHING_ENEMY);
+        }
+        else {
+            enemyLeft[i] = init_fighter(GRABBING_ENEMY);
+        }
     }
 
     for(i = 0; i<ENEMIES_LVL2; i ++){
-        enemyRight[i] = init_fighter(GRABBING_ENEMY);
+        if(i == 2 || i == 6 || i == 7){
+            enemyRight[i] = init_fighter(PUNCHING_ENEMY);
+        }
+        else{
+            enemyRight[i] = init_fighter(GRABBING_ENEMY);
+        }
         enemyRight[i].rcSprite.x = DEFAULT_SPRITE_POSITION_X + 500;
     }
 
@@ -108,12 +118,12 @@ int main (int argc, char *argv[]) {
 
    for(i=0;i<ENEMIES_LVL1;i++){
 	if(i == 3 || i == 5 || i == 8){
-	TimeBetweenEnemies[i] = 2000;
+	TimeBetweenEnemies[i] = 3000;
 	} else if (i == 0){
    	TimeBetweenEnemies[i] = 1000;
    	}
    	else{
-        TimeBetweenEnemies[i] = 250;
+        TimeBetweenEnemies[i] = 500;
    	}
     }
 
@@ -146,8 +156,8 @@ int main (int argc, char *argv[]) {
     while(!isOver(gameState)){
         if(!gameState.inPause && !gameState.EndMenu){
              if(gameState.lvl == Level2 && first_time){
-                resetTabEnemies(enemyLeft);
-                resetTabLaunch(launchEnemy);
+                resetTabEnemies(ENEMIES_LVL1,enemyLeft);
+                resetTabLaunch(ENEMIES_LVL2,launchEnemy);
                 k = 0;
                 first_time = 0;
             }
@@ -157,18 +167,17 @@ int main (int argc, char *argv[]) {
             else{
                 allDead = false;
             }
-            temp_enemy_left = whichFighter(enemyLeft);
+            temp_enemy_left = whichFighter(ENEMIES_LVL1,enemyLeft);
 
-            temp_enemy_right = whichFighter(enemyRight);
+            temp_enemy_right = whichFighter(ENEMIES_LVL2,enemyRight);
 
         KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
         if(!allDead){
-                MoveEnemies(enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
+                MoveEnemies(ENEMIES_LVL1,enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
         }
         if(gameState.lvl == Level2){
-            MoveEnemiesLeft(enemyRight,&player,&T,&T1,launchEnemyRight,&cpt,TimeBetweenEnemiesRight);
+            MoveEnemiesLeft(ENEMIES_LVL2,enemyRight,&player,&T,&T1,launchEnemyRight,&cpt,TimeBetweenEnemiesRight);
         }
-
         CheckAnimations(&player,temp_enemy_left,temp_enemy_right,&T);
         if(player.p == ANIMATED){
             AnimatePlayer(&player,&T,&bg,&gameState);
@@ -176,15 +185,16 @@ int main (int argc, char *argv[]) {
 
         BlitImages(&bg, &player, screen, &T);
         if(gameState.lvl == Level2){
-            BlitEnemies(enemyRight,screen,launchEnemyRight,&T);
+            BlitEnemies(ENEMIES_LVL2,enemyRight,screen,launchEnemyRight,&T);
         }
 
-        BlitEnemies(enemyLeft,screen,launchEnemy,&T);
+        BlitEnemies(ENEMIES_LVL1,enemyLeft,screen,launchEnemy,&T);
 
         if((gameState.lvl == Level3 && player.rcSprite.x < 70 )|| player.p == DEAD){
             gameState.EndMenu = true;
         }
         ViewLifepoints(&LPView,player,screen);
+
     }
     else if(gameState.inPause){
         PauseGame(P,&gameState,screen);

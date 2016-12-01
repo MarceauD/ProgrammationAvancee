@@ -18,8 +18,10 @@ LPV init_LPV(fighter player){
 }
 
 void ViewLifepoints(LPV *LifePointsView, fighter player, SDL_Surface *screen){
-	LifePointsView->source.w = 20 * read_lifepoints(player);
-	SDL_BlitSurface(LifePointsView->sprite,&LifePointsView->source,screen,&LifePointsView->rcSprite);
+    if(isAlive(player)){
+        LifePointsView->source.w = 20 * read_lifepoints(player);
+        SDL_BlitSurface(LifePointsView->sprite,&LifePointsView->source,screen,&LifePointsView->rcSprite);
+    }
 }
 
 /*

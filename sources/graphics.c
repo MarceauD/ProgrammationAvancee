@@ -30,6 +30,9 @@ fighter init_fighter(fighter_kind FK){
     if(FK == GRABBING_ENEMY){
       F.sprite = loadImage(F.sprite,"sprites/sprite_enemy.bmp");
     }
+    if(FK == PUNCHING_ENEMY){
+        F.sprite = loadImage(F.sprite,"sprites/sprite_enemy2.bmp");
+    }
     /* setup sprite colorkey and turn on RLE */
     SDL_SetColorKey(F.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(F.sprite->format,49,82,49));
 
@@ -45,7 +48,7 @@ fighter init_fighter(fighter_kind FK){
         F.rcSprite.h = DEFAULT_SPRITE_HEIGHT;
         F.rcSprite.w = DEFAULT_SPRITE_WIDTH;
 	}
-	if(FK == GRABBING_ENEMY){
+	if(FK == GRABBING_ENEMY || FK == PUNCHING_ENEMY){
 	  F.rcSprite.x = DEFAULT_ENEMY_POSITION_X;
 	  F.rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
 	}
@@ -59,7 +62,12 @@ fighter init_fighter(fighter_kind FK){
     if(FK == GRABBING_ENEMY){
         F = write_lifepoints(DEFAULT_GRABBING_ENEMY_LIFEPOINTS,F);
         F = write_damage(DEFAULT_GRABBING_ENEMY_HITDAMAGE,F);
-	F.f = GRABBING_ENEMY;
+        F.f = GRABBING_ENEMY;
+    }
+    if(FK == PUNCHING_ENEMY){
+        F = write_lifepoints(15,F);
+        F = write_damage(2,F);
+        F.f = PUNCHING_ENEMY;
     }
 
 

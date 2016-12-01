@@ -191,3 +191,47 @@ void CheckAnimations(fighter *player, fighter *enemy,fighter *enemy_r, Time *T){
             AnimatePlayerKick(player,enemy,enemy_r,T,TIME_BTW_ANIMATIONS);
     }
 }
+
+
+
+
+void AnimateEnemyPunching(fighter *enemy,fighter *player,Time *T){
+    if(enemy->r == RIGHT){
+        if(enemy->p != PUNCH){
+            enemy->source.x = 0;
+            enemy->source.y = 230;
+        }
+        update_currentTime(T);
+        if(T->currentTime - enemy->previousTime > 350){
+            enemy->source.x = enemy->source.x + 50;
+            enemy->previousTime = T->currentTime;
+            if(enemy->source.x == 50){
+                *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
+            }
+        }
+        if(enemy->source.x > 50 ){
+            enemy->source.x = 0;
+        }
+
+        printf("%d\n",enemy->source.x);
+    } else {
+        if(enemy->p != PUNCH){
+            enemy->source.x = 265;
+            enemy->source.y = 230;
+        }
+        update_currentTime(T);
+        if(T->currentTime - enemy->previousTime > 350){
+            enemy->source.x = enemy->source.x - 50;
+            enemy->previousTime = T->currentTime;
+            if(enemy->source.x == 215){
+                *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
+            }
+        }
+        printf("%d\n",enemy->source.x);
+        if(enemy->source.x < 215 ){
+            enemy->source.x = 265;
+        }
+    }
+
+     enemy->p = PUNCH;
+}

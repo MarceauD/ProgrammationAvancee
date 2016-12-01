@@ -22,6 +22,7 @@ void PlayerHitEnemy(fighter *player, fighter *enemy){
 
 void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
 	if(isAlive(*enemy)){
+        if(enemy->f == GRABBING_ENEMY){
 	    if(enemy->rcSprite.y != DEFAULT_SPRITE_POSITION_Y + 5){
 	    	enemy->rcSprite.y = DEFAULT_SPRITE_POSITION_Y + 5;
 	    }
@@ -33,10 +34,15 @@ void EnemyAttackRight(fighter *enemy, fighter *player, Time *T){
                 enemy->previousTime = T->currentTime;
             }
         }
+        if(enemy->f == PUNCHING_ENEMY){
+            AnimateEnemyPunching(enemy,player,T);
+        }
+	}
 }
 
 void EnemyAttackLeft(fighter *enemy, fighter *player, Time *T){
     if(isAlive(*enemy)){
+        if(enemy->f == GRABBING_ENEMY){
         if(enemy->rcSprite.y != DEFAULT_SPRITE_POSITION_Y + 5){
 	    	enemy->rcSprite.y = DEFAULT_SPRITE_POSITION_Y + 5;
 	    }
@@ -48,5 +54,9 @@ void EnemyAttackLeft(fighter *enemy, fighter *player, Time *T){
                 enemy->previousTime = T->currentTime;
             }
         }
+        if(enemy->f == PUNCHING_ENEMY){
+        AnimateEnemyPunching(enemy,player,T);
+        }
+    }
 }
 

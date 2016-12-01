@@ -30,5 +30,7 @@ extern void AnimatePlayerDeath(fighter *player, Time *T);
 /*check if the player is in the middle of an animation, if so, it ends it before anything else*/
 extern void CheckAnimations(fighter *player, fighter *enemy,fighter *enemy_r, Time *T);
 
+/*animate the enemy punching the player left and right*/
+extern void AnimateEnemyPunching(fighter *enemy,fighter *player,Time *T);
 
 #endif //ANIMATIONS_H
