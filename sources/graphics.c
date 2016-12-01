@@ -47,10 +47,12 @@ fighter init_fighter(fighter_kind FK){
         F.rcSprite.y = DEFAULT_SPRITE_POSITION_Y;
         F.rcSprite.h = DEFAULT_SPRITE_HEIGHT;
         F.rcSprite.w = DEFAULT_SPRITE_WIDTH;
+        F.acc = 0;
 	}
 	if(FK == GRABBING_ENEMY || FK == PUNCHING_ENEMY){
 	  F.rcSprite.x = DEFAULT_ENEMY_POSITION_X;
 	  F.rcSprite.y = DEFAULT_ENEMY_POSITION_Y;
+      F.acc = 0;
 	}
 
     /*lifepoints and damage points*/

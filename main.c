@@ -9,7 +9,6 @@
 #include "headers/graphics.h"
 #include "headers/animations.h"
 #include "headers/moving.h"
-#include "headers/queue.h"
 #include "headers/interface.h"
 #include "headers/level.h"
 
@@ -120,7 +119,7 @@ int main (int argc, char *argv[]) {
 	if(i == 3 || i == 5 || i == 8){
 	TimeBetweenEnemies[i] = 3000;
 	} else if (i == 0){
-   	TimeBetweenEnemies[i] = 1000;
+   	TimeBetweenEnemies[i] = 2000;
    	}
    	else{
         TimeBetweenEnemies[i] = 500;
@@ -129,13 +128,13 @@ int main (int argc, char *argv[]) {
 
     for(i = 0; i < ENEMIES_LVL2; i ++){
         if(i == 0){
-            TimeBetweenEnemiesRight[i] = 0;
+            TimeBetweenEnemiesRight[i] = 5000;
         }
         if(i == 2 || i == 6 || i == 8){
-            TimeBetweenEnemiesRight[i] = 2000;
+            TimeBetweenEnemiesRight[i] = 5000;
         }
         else{
-            TimeBetweenEnemiesRight[i] = 250;
+            TimeBetweenEnemiesRight[i] = 5000;
         }
     }
 
@@ -172,6 +171,14 @@ int main (int argc, char *argv[]) {
             temp_enemy_right = whichFighter(ENEMIES_LVL2,enemyRight);
 
         KeyboardManagerGame(event,&gameState,&player,temp_enemy_left,temp_enemy_right,&bg,&T);
+        for(i = 0; i < ENEMIES_LVL1; i ++){
+            if(launchEnemy[i]){
+                enemyLeft[i].acc = temp_enemy_left->acc;
+            }
+            if(launchEnemyRight[i]){
+                enemyRight[i].acc = temp_enemy_right->acc;
+            }
+        }
         if(!allDead){
                 MoveEnemies(ENEMIES_LVL1,enemyLeft,&player,&T,&T1,launchEnemy,&k,TimeBetweenEnemies);
         }
@@ -193,6 +200,10 @@ int main (int argc, char *argv[]) {
         if((gameState.lvl == Level3 && player.rcSprite.x < 70 )|| player.p == DEAD){
             gameState.EndMenu = true;
         }
+
+        temp_enemy_left->acc = 0;
+        temp_enemy_right->acc = 0;
+
         ViewLifepoints(&LPView,player,screen);
 
     }

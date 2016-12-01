@@ -40,6 +40,7 @@ struct fighter{
     SDL_Rect rcSprite;
     int lifepoints;
     int damage;
+    int acc;
 
     enum rotation r;
 

@@ -213,7 +213,6 @@ void AnimateEnemyPunching(fighter *enemy,fighter *player,Time *T){
             enemy->source.x = 0;
         }
 
-        printf("%d\n",enemy->source.x);
     } else {
         if(enemy->p != PUNCH){
             enemy->source.x = 265;
@@ -227,7 +226,6 @@ void AnimateEnemyPunching(fighter *enemy,fighter *player,Time *T){
                 *player = write_lifepoints(read_lifepoints(*player) - read_damage(*enemy), *player);
             }
         }
-        printf("%d\n",enemy->source.x);
         if(enemy->source.x < 215 ){
             enemy->source.x = 265;
         }
