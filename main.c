@@ -32,9 +32,9 @@ int main (int argc, char *argv[]) {
 
     SDL_Init(SDL_INIT_VIDEO);
 
-    freopen("CON", "w", stdout);
+    /*freopen("CON", "w", stdout);
     freopen("CON", "r", stdin);
-    freopen("CON", "w", stderr);
+    freopen("CON", "w", stderr);*/
 
     /* set the title bar */
     SDL_WM_SetCaption(GAME_TITLE,NULL);
@@ -117,24 +117,24 @@ int main (int argc, char *argv[]) {
 
    for(i=0;i<ENEMIES_LVL1;i++){
 	if(i == 3 || i == 5 || i == 8){
-	TimeBetweenEnemies[i] = 3000;
+	TimeBetweenEnemies[i] = TIME_BTW_ENEMIES_BIGGEST_INTERVAL;
 	} else if (i == 0){
-   	TimeBetweenEnemies[i] = 2000;
+   	TimeBetweenEnemies[i] = TIME_BTW_ENEMIES_INTERVAL;
    	}
    	else{
-        TimeBetweenEnemies[i] = 500;
+        TimeBetweenEnemies[i] = TIME_BTW_ENEMIES;
    	}
     }
 
     for(i = 0; i < ENEMIES_LVL2; i ++){
         if(i == 0){
-            TimeBetweenEnemiesRight[i] = 5000;
+            TimeBetweenEnemiesRight[i] = TIME_BTW_ENEMIES_BIGGEST_INTERVAL;
         }
         if(i == 2 || i == 6 || i == 8){
-            TimeBetweenEnemiesRight[i] = 5000;
+            TimeBetweenEnemiesRight[i] = TIME_BTW_ENEMIES_INTERVAL;
         }
         else{
-            TimeBetweenEnemiesRight[i] = 5000;
+            TimeBetweenEnemiesRight[i] = TIME_BTW_ENEMIES;
         }
     }
 
@@ -215,7 +215,7 @@ int main (int argc, char *argv[]) {
                 EndMenuVictory(screen,&gameState,&T);
             }
             else{
-                EndMenuDefeat(screen,&gameState,&T);
+                EndMenuDefeat(screen,&gameState);
             }
     }
         /* update the screen */

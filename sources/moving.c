@@ -135,7 +135,6 @@ void MoveEnemyLeft(fighter *enemy, fighter * player, Time *T){
 		    AnimatePlayerLeft(enemy);
 		    enemy->previousTime = T->currentTime;
 		}
-		printf("%d\n",enemy->acc);
 		enemy->rcSprite.x = enemy->rcSprite.x - ENEMY_SPEED + enemy->acc;
 		update_previousTime(T);
 	    }

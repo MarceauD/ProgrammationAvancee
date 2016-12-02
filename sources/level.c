@@ -115,7 +115,11 @@ void resetTabEnemies(int N,fighter enemies[N]){
         enemies[i].source.x = SOURCE_POS_PLAYER_STANDING_RIGHT_X;
         enemies[i].source.y = SOURCE_POS_PLAYER_STANDING_RIGHT_Y;
         enemies[i].source.w = SPRITE_WIDTH;
-        enemies[i].lifepoints = DEFAULT_GRABBING_ENEMY_LIFEPOINTS;
+	if(i == 0){
+		enemies[i].lifepoints = DEFAULT_PUNCHING_ENEMY_LIFEPOINTS;
+	} else {
+        	enemies[i].lifepoints = DEFAULT_GRABBING_ENEMY_LIFEPOINTS;
+	}
         enemies[i].p = STANDING;
     }
 }

@@ -91,12 +91,12 @@ void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Rect *sou
 
 
 void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo){
-    rcRect->x = 0;
-    rcRect->y = 280;
-    source->x = 0;
-    source->y = 0;
-    source->w = 800;
-    source->h = 50;
+    rcRect->x = DEFAULT_MENU_POS_X;
+    rcRect->y = DEFAULT_MENU_POS_Y;
+    source->x = DEFAULT_MENU_SOURCE_POS_X;
+    source->y = DEFAULT_MENU_SOURCE_POS_Y;
+    source->w = DEFAULT_MENU_SOURCE_WIDTH;
+    source->h = DEFAULT_MENU_SOURCE_HEIGHT;
     demo->rcSprite.x = SCREEN_WIDTH / 2 - SPRITE_WIDTH;
     demo->rcSprite.y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2 ;
 }
@@ -113,7 +113,7 @@ void EndMenuVictory(SDL_Surface * screen, GameState *gameState,Time *T){
     SDL_SetColorKey(beloved.sprite,SDL_SRCCOLORKEY, SDL_MapRGB(beloved.sprite->format,39,82,39));
     beloved.previousTime = 0;
     beloved.source.x = 2;
-    beloved.source.w = 50   ;
+    beloved.source.w = 50;
     beloved.source.y = 0;
     beloved.rcSprite.x = (SCREEN_WIDTH / 2 )- SPRITE_WIDTH;
     beloved.rcSprite.y = SCREEN_HEIGHT / 2;
@@ -141,7 +141,7 @@ void EndMenuVictory(SDL_Surface * screen, GameState *gameState,Time *T){
 }
 
 
-void EndMenuDefeat(SDL_Surface *screen, GameState *gameState, Time *T){
+void EndMenuDefeat(SDL_Surface *screen, GameState *gameState){
     SDL_Surface * endmenu;
     SDL_Event event;
     endmenu = loadImage(NULL,"sprites/endMenuDefeat.bmp");

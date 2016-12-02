@@ -54,7 +54,10 @@ extern void Menu(SDL_Surface * menu, SDL_Surface * Rect, SDL_Rect rcRect, SDL_Re
 /*initialize the menu ( could also be done with a structure as for LPV, or Pause )*/
 extern void init_Menu(SDL_Rect *rcRect, SDL_Rect *source, fighter *demo);
 
+/*set an image and an animation at the end of the game in case of victory*/
 extern void EndMenuVictory(SDL_Surface *screen,GameState * gameState, Time *T);
 
-extern void EndMenuDefeat(SDL_Surface *screen,GameState *gameState, Time *T);
+/*set an image at the end of the game in case of defeat*/
+extern void EndMenuDefeat(SDL_Surface *screen,GameState *gameState);
+
 #endif //INTERFACE_H

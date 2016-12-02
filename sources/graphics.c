@@ -67,8 +67,8 @@ fighter init_fighter(fighter_kind FK){
         F.f = GRABBING_ENEMY;
     }
     if(FK == PUNCHING_ENEMY){
-        F = write_lifepoints(15,F);
-        F = write_damage(2,F);
+        F = write_lifepoints(DEFAULT_PUNCHING_ENEMY_LIFEPOINTS,F);
+        F = write_damage(DEFAULT_PUNCHING_ENEMY_HITDAMAGE,F);
         F.f = PUNCHING_ENEMY;
     }
 
